@@ -11,7 +11,7 @@
       <v-btn text>
           Ayuda
       </v-btn>
-      <v-btn rounded color="rgb(208,201,61)">Entrar</v-btn>
+      <v-btn rounded color="rgb(208,201,61)" href="./pisos">Entrar</v-btn>
     </v-toolbar>
   </nav>
 </template>
