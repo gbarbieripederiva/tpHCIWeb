@@ -7,6 +7,7 @@ module.exports = {
       template: "public/index.html",
       // output as dist/index.html
       filename: "index.html"
-    }
+    },
+    pisos:'src/pages/pisos/main.js'
   }
 };
