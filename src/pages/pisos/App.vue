@@ -2,6 +2,9 @@
   <v-app>
     <NavBar></NavBar>
     <ToolBar :pisos="pisos"></ToolBar>
+    <v-content class="primary">
+
+    </v-content>
   </v-app>
 </template>
 
