@@ -37,7 +37,10 @@ export default {
     for (var i = 0; i < 20; i++) {
       this.cuartos.push({
         name: "hola",
-        img: "mdi-anchor"
+        img: "mdi-anchor",
+        open: () => {
+          console.log("hola");
+        }
       });
     }
   }
