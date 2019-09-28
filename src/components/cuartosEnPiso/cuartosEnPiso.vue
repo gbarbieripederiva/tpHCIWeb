@@ -1,11 +1,19 @@
 <template>
-  <v-card
-    :height="windowSize.height-250"
-    :width="windowSize.width-200"
-    class="d-flex flex-row flex-wrap justify-space-around overflow-y-auto "
-  >
-    <cuartoCard v-for="(cuarto,index) in cuartos" :cuarto="cuarto" :key="index"></cuartoCard>
-  </v-card>
+  <div>
+    <v-card
+      :height="sizeOfCard.height"
+      :width="sizeOfCard.width"
+      class="overflow-y-auto"
+    >
+      <v-container grid-list-xl class="overflow-y-">
+        <v-layout row wrap justify-space-start>
+          <v-flex v-for="(cuarto,index) in cuartos" :key="index" md4>
+            <cuartoCard :cuarto="cuarto"></cuartoCard>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-card>
+  </div>
 </template>
 
 <script>
@@ -19,15 +27,15 @@ export default {
   },
   data() {
     return {
-      windowSize: {
+      sizeOfCard: {
         width: 0,
         height: 0
       }
     };
   },
   mounted() {
-    this.windowSize.width = window.innerWidth;
-    this.windowSize.height = window.innerHeight;
+    this.sizeOfCard.width = Math.floor((window.innerWidth-30)/200)*200;
+    this.sizeOfCard.height = window.innerHeight - 250;
   }
 };
 </script>

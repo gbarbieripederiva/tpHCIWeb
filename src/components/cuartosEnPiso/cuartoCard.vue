@@ -2,7 +2,6 @@
   <v-card
     height="200"
     width="200"
-    class="my-3"
     color="yellow"
     align="center"
     justify="center"
