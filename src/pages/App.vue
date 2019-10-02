@@ -1,14 +1,9 @@
 <template>
   <v-app>
-    <NavBar></NavBar>
-    <ToolBar :pisos="pisos"></ToolBar>
+    <NavBar v-model="entered"></NavBar>
+    <ToolBar v-if="entered" :pisos="pisos"></ToolBar>
     <v-content class="primary">
-      <br />
-      <div>
-        <v-row justify="center" align="center">
-          <CuartosEnPiso :cuartos="cuartos"></CuartosEnPiso>
-        </v-row>
-      </div>
+        <router-view :users="$data"></router-view>
     </v-content>
   </v-app>
 </template>
@@ -24,7 +19,8 @@ export default {
   data() {
     return {
       pisos: [],
-      cuartos: []
+      cuartos: [],
+      entered:false
     };
   },
   mounted() {

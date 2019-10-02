@@ -1,6 +1,5 @@
 <template>
   <v-app>
-    <NavBar></NavBar>
     <v-content class="primary">
       <v-container fluid>
         <v-row fill-height align="center" justify="center">
@@ -27,9 +26,7 @@
 </template>
 
 <script>
-import NavBar from "@/components/navBar/navbar.vue";
 export default {
-  name: "App",
-  components: { NavBar }
+  name: "LoggedOffHome"
 };
 </script>
