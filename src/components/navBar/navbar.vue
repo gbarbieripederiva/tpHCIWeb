@@ -25,10 +25,12 @@ export default {
   methods: {
     login: function() {
       this.$emit("input", true  );
+      sessionStorage.setItem("entered",true);
       this.$router.push("/dispositivosFavoritos");
     },
     logout: function() {
       this.$emit("input", false  );
+      sessionStorage.removeItem("entered");
       this.$router.push("/");
     }
   }

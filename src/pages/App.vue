@@ -23,13 +23,15 @@ export default {
     };
   },
   mounted() {
-    var name = "chau";
+    let name = "chau";
     this.pisos.push({
       name: name,
       open: () => {
         this.$router.push("/pisos/" + name);
       }
     });
+    let entered=sessionStorage.getItem("entered");
+    this.entered=entered?true:false;
   }
 };
 </script>

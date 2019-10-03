@@ -11,23 +11,47 @@ var routes = [
   {
     path: "/",
     component: LoggedOffHome
-  },{
-    path:"/pisos/:id",
-    component:Piso
-  },{
-    path:"/pisos/:idPiso/:tipoCuarto/:id",
-    component:Cuarto
-  }
-  ,{
-    path:"/dispositivosFavoritos",
-    component:DispositivosFavoritos
-  },{
-    path:"/rutinas",
-    component:Rutinas
   },
   {
-    path:"*",
-    component:LoggedOffHome
+    path: "/pisos/:id",
+    component: Piso
+  },
+  {
+    path: "/pisos/:idPiso/:tipoCuarto/:id",
+    component: Cuarto
+  },
+  {
+    path: "/dispositivosFavoritos",
+    component: DispositivosFavoritos
+  },
+  {
+    path: "/rutinas",
+    component: Rutinas
+  },
+  {
+    path: "*",
+    component: LoggedOffHome
   }
 ];
-export default new VueRouter({ mode: "history", routes });
+var router = new VueRouter({ mode: "history", routes });
+
+router.beforeEach((to, from, next) => {
+  if (!["/", "/acercaDe", "/ayuda"].includes(to.path)) {
+    var entered;
+    try {
+      entered = JSON.parse(sessionStorage.getItem("entered"));
+    } catch (e) {
+      entered = false;
+    }
+    if (!entered) {
+      console.log(to.path);
+      next("/");
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+});
+
+export default router;
