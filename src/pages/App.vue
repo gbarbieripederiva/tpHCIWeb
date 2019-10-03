@@ -3,7 +3,7 @@
     <NavBar v-model="entered"></NavBar>
     <ToolBar v-if="entered" :pisos="pisos"></ToolBar>
     <v-content class="primary">
-        <router-view :users="$data"></router-view>
+        <router-view></router-view>
     </v-content>
   </v-app>
 </template>
@@ -11,34 +11,24 @@
 <script>
 import NavBar from "@/components/navBar/navbar.vue";
 import ToolBar from "@/components/navBar/toolbar.vue";
-import CuartosEnPiso from "@/components/cuartosEnPiso/cuartosEnPiso.vue";
 
 export default {
   name: "App",
-  components: { NavBar, ToolBar, CuartosEnPiso },
+  components: { NavBar, ToolBar },
   data() {
     return {
       pisos: [],
-      cuartos: [],
       entered:false
     };
   },
   mounted() {
+    var name="chau";
     this.pisos.push({
-      name: "chau",
+      name: name,
       open: () => {
-        console.log("chau");
+        this.$router.push("/pisos/"+name);
       }
-    });
-    for (var i = 0; i < 20; i++) {
-      this.cuartos.push({
-        name: "hola",
-        img: "mdi-anchor",
-        open: () => {
-          console.log("hola");
-        }
-      });
-    }
+    })
   }
 };
 </script>

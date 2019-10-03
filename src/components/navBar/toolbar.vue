@@ -12,8 +12,8 @@
   -->
   <nav>
     <v-toolbar height="30" :color="toolbarColor">
-      <v-btn text small>Dispositivos favoritos</v-btn>
-      <v-btn text small>Rutinas</v-btn>
+      <v-btn text to="/dispositivosFavoritos" small>Dispositivos favoritos</v-btn>
+      <v-btn text to="/rutinas" small>Rutinas</v-btn>
       <v-menu bottom offset-y origin="center top" transition="scale-transition">
         <template v-slot:activator="{ on }">
           <v-btn text small v-on="on">Pisos</v-btn>
