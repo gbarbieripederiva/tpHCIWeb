@@ -3,7 +3,8 @@
     <NavBar v-model="entered"></NavBar>
     <ToolBar v-if="entered" :pisos="pisos"></ToolBar>
     <v-content class="primary">
-        <router-view></router-view>
+      <br>
+      <router-view></router-view>
     </v-content>
   </v-app>
 </template>
@@ -18,17 +19,17 @@ export default {
   data() {
     return {
       pisos: [],
-      entered:false
+      entered: false
     };
   },
   mounted() {
-    var name="chau";
+    var name = "chau";
     this.pisos.push({
       name: name,
       open: () => {
-        this.$router.push("/pisos/"+name);
+        this.$router.push("/pisos/" + name);
       }
-    })
+    });
   }
 };
 </script>

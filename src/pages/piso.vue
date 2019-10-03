@@ -1,13 +1,10 @@
 
 <template>
-  <v-content class="primary">
-    <br />
-    <div>
-      <v-row justify="center" align="center">
-        <CuartosEnPiso :cuartos="cuartos"></CuartosEnPiso>
-      </v-row>
-    </div>
-  </v-content>
+  <div>
+    <v-row justify="center" align="center">
+      <CuartosEnPiso :cuartos="cuartos"></CuartosEnPiso>
+    </v-row>
+  </div>
 </template>
 
 <script>
@@ -21,7 +18,6 @@ export default {
   computed: {
     cuartos() {
       let cuartos = [];
-      console.log(this.$route.params.id);
       for (let i = 0; i < 10; i++) {
         cuartos.push({
           name: "hola",
