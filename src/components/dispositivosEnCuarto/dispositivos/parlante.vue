@@ -143,7 +143,7 @@ export default {
       }
     },
     startUpdate() {
-      if(this.interval!==null){
+      if(this.interval){
         return;
       }
       this.interval = setInterval(() => {
