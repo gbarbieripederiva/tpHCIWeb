@@ -44,7 +44,6 @@ router.beforeEach((to, from, next) => {
       entered = false;
     }
     if (!entered) {
-      console.log(to.path);
       next("/");
     } else {
       next();
