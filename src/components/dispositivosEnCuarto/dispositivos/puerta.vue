@@ -1,5 +1,5 @@
 <template>
-  <v-card fillWidth height="50" color="white"></v-card>
+  <v-card fillWidth color="white"> puerta</v-card>
 </template>
 
 <script>

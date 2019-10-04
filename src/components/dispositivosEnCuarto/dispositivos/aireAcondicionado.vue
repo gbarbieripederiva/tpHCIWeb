@@ -1,5 +1,5 @@
 <template>
-  <v-card fillWidth height="50" color="white">aire acondicionado</v-card>
+  <v-card fillWidth   color="white">aire acondicionado</v-card>
 </template>
 
 <script>

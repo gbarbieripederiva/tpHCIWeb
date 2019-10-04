@@ -1,5 +1,5 @@
 <template>
-  <v-card fillWidth height="50" color="white">horno</v-card>
+  <v-card fillWidth   color="white">horno</v-card>
 </template>
 
 <script>

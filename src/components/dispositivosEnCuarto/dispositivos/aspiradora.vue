@@ -1,9 +1,10 @@
 <template>
-  <v-card fillWidth height="50" color="white">aspiradora</v-card>
+  <v-container fill-width>aspirador</v-container>
 </template>
 
 <script>
 export default {
-    name:"Aspiradora"
-}
+  name: "Aspiradora",
+  props: ["dispositivo"]
+};
 </script>

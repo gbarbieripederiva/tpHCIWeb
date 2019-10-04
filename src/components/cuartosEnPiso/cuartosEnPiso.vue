@@ -51,7 +51,10 @@ export default {
   }
   ,
   mounted() {
-    this.sizeOfCard.width = Math.floor((window.innerWidth - 30) / 200) * 200;
+    this.sizeOfCard.width = Math.floor((window.innerWidth - 30) / 250) * 200;
+    if(this.sizeOfCard.width<250){
+      this.sizeOfCard.width=250;
+    }
     this.sizeOfCard.height = window.innerHeight - 250;
   }
 };

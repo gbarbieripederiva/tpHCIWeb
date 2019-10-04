@@ -1,5 +1,5 @@
 <template>
-  <v-card fillWidth height="50" color="white">heladera</v-card>
+  <v-card fillWidth   color="white">heladera</v-card>
 </template>
 
 <script>
