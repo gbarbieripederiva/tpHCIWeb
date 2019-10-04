@@ -1,10 +1,23 @@
 <template>
   <v-container fill-width>
     <v-row justify="center" align="center">
+      <!-- slider volumen -->
+      <v-col offset="9">
+        <v-slider v-model="volumen" max="10" min="0" ticks step="1" dense hide-details>
+          <template v-slot:append>
+            <v-icon @click="subirVolumen">mdi-volume-plus</v-icon>
+          </template>
+          <template v-slot:prepend>
+            <v-icon @click="bajarVolumen">mdi-volume-minus</v-icon>
+          </template>
+        </v-slider>
+      </v-col>
+    </v-row>
+    <v-row justify="center" align="center">
       <v-col cols="4">
         <v-row justify="center" align="center">
           <!-- display de generos -->
-          <v-menu bottom offset-y origin="center top" transition="scale-transition" >
+          <v-menu bottom offset-y origin="center top" transition="scale-transition">
             <template v-slot:activator="{ on }">
               <v-btn text x-large outlined v-on="on">{{genero}}</v-btn>
             </template>
@@ -20,23 +33,23 @@
           </v-menu>
         </v-row>
         <v-row justify="center" align="center">
+          <!-- song name -->
+          {{songPlaying.name}}
+        </v-row>
+        <v-row>
+          <!-- slider song -->
+          <v-slider dense hide-details readonly :value="timeStamp" :max="songPlaying.length">
+            <template v-slot:append>{{songEndString}}</template>
+            <template v-slot:prepend>{{songTimestampString}}</template>
+          </v-slider>
+        </v-row>
+        <v-row justify="center" align="center">
           <!-- botones -->
           <v-icon @click="prevSong" x-large>mdi-skip-previous</v-icon>
           <v-icon @click="stopSong" x-large>mdi-stop</v-icon>
           <v-icon @click="pauseSong" x-large v-if="state=='playing'">mdi-pause</v-icon>
           <v-icon @click="playSong" v-else x-large>mdi-play</v-icon>
           <v-icon @click="nextSong" x-large>mdi-skip-next</v-icon>
-        </v-row>
-        <v-row justify="center" align="center">
-          <!-- slider -->
-          <v-slider v-model="volumen" max="10" min="0" ticks step="1">
-            <template v-slot:append>
-              <v-icon @click="subirVolumen">mdi-volume-plus</v-icon>
-            </template>
-            <template v-slot:prepend>
-              <v-icon @click="bajarVolumen">mdi-volume-minus</v-icon>
-            </template>
-          </v-slider>
         </v-row>
       </v-col>
       <v-col>
@@ -58,12 +71,30 @@
 export default {
   name: "Parlante",
   props: ["dispositivo"],
+  computed: {
+    songEndString() {
+      return (
+        Math.floor(this.songPlaying.length / 60) +
+        ":" +
+        ("0" + (this.songPlaying.length % 60)).slice(-2)
+      );
+    },
+    songTimestampString() {
+      return (
+        Math.floor(this.timeStamp / 60) +
+        ":" +
+        ("0" + (this.timeStamp % 60)).slice(-2)
+      );
+    }
+  },
   data() {
     return {
       generos: ["genero1", "genero2", "genero3"],
       genero: "genero1",
       volumen: 0,
-      state:"playing",
+      state: "playing",
+      songPlaying: { name: "highway to hell", length: 240 },
+      timeStamp: 230,
       lista: [
         "hola",
         "hola2",
@@ -76,6 +107,10 @@ export default {
         "hola3"
       ]
     };
+  },
+  interval: null,
+  mounted() {
+    this.startUpdate();
   },
   methods: {
     changeGenero(genero) {
@@ -91,20 +126,36 @@ export default {
         this.volumen -= 1;
       }
     },
-    nextSong(){
-
+    nextSong() {},
+    prevSong() {},
+    pauseSong() {
+      this.state = "paused";
+      clearInterval(this.interval);
+      this.interval = null;
     },
-    prevSong(){
-      
+    stopSong() {
+      this.state = "stopped";
     },
-    pauseSong(){
-      this.state="paused";
+    playSong() {
+      this.state = "playing";
+      if (this.interval == null) {
+        this.startUpdate();
+      }
     },
-    stopSong(){
-      this.state="stopped";
-    },
-    playSong(){
-      this.state="playing";
+    startUpdate() {
+      if(this.interval!==null){
+        return;
+      }
+      this.interval = setInterval(() => {
+        if (this.timeStamp < this.songPlaying.length) {
+          this.timeStamp = this.timeStamp + 1;
+        }
+      }, 1000);
+    }
+  },
+  beforeDestroy() {
+    if (this.interval != null) {
+      clearInterval(this.interval);
     }
   }
 };
