@@ -36,7 +36,7 @@ export default {
     addDispositivo: () => {}
   },
   mounted() {
-    this.sizeOfCard.width = Math.floor((window.innerWidth - 30) / 200) * 200;
+    this.sizeOfCard.width = window.innerWidth-40;
     this.sizeOfCard.height = window.innerHeight - 250;
   }
 };
