@@ -3,7 +3,7 @@
     <v-row>
       <v-col>
         <v-row justify="center" align="center">
-          <v-switch v-model="isClosed">
+          <v-switch v-model="isClosed" :readonly="isLocked">
             <template v-slot:prepend>
               <v-icon>mdi-door-open</v-icon>
             </template>
@@ -32,6 +32,13 @@
 <script>
 export default {
   name: "Puerta",
+  watch:{
+    isLocked(){
+      if(this.isLocked){
+        this.isClosed=true;
+      }
+    }
+  },
   data(){
     return{
       isClosed:false,
