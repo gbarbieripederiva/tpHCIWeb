@@ -1,9 +1,42 @@
 <template>
-  <v-card fillWidth color="white"> puerta</v-card>
+  <v-container fill-width>
+    <v-row>
+      <v-col>
+        <v-row justify="center" align="center">
+          <v-switch v-model="isClosed">
+            <template v-slot:prepend>
+              <v-icon>mdi-door-open</v-icon>
+            </template>
+            <template v-slot:append>
+              <v-icon>mdi-door-closed</v-icon>
+            </template>
+          </v-switch>
+        </v-row>
+      </v-col>
+      <v-col>
+        <v-row justify="center" align="center">
+          <v-switch v-model="isLocked">
+            <template v-slot:prepend>
+              <v-icon>mdi-lock-open</v-icon>
+            </template>
+            <template v-slot:append>
+              <v-icon>mdi-lock</v-icon>
+            </template>
+          </v-switch>
+        </v-row>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
 export default {
-    name:"Puerta"
-}
+  name: "Puerta",
+  data(){
+    return{
+      isClosed:false,
+      isLocked:false
+    };
+  }
+};
 </script>
