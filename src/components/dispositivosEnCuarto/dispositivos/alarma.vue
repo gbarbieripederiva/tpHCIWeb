@@ -13,7 +13,7 @@
                 <template v-slot:activator="{ on }">
                   <v-btn text x-large outlined v-on="on">{{modo}}</v-btn>
                 </template>
-                <v-list color="light-blue" flat nav>
+                <v-list flat>
                   <v-list-item
                     v-for="(modo,index) in modos"
                     :key="index"
