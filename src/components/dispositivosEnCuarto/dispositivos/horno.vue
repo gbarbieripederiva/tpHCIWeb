@@ -37,41 +37,45 @@
     </v-row>
 
       <v-row align="center" justify="center" class="my-3">
-          <v-col cols="3">
-          <v-menu bottom offset-y origin="center top" transition="scale-transition">
-            <template v-slot:activator="{ on }">
-              <v-btn text outlined v-on="on">{{heatSource}}</v-btn>
-            </template>
-            <v-list color="light-blue" flat nav>
-              <v-list-item v-for="(heatSource,index) in heatSources" :key="index" @click="()=>{ changeHeatSource(heatSource)}">
-                <v-list-item-title>{{heatSource}}</v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-menu>
+          <v-col cols="3" class="mx-4">
+            <v-text class="mx-2 font-weight-bold">Fuente de calor:</v-text>
+              <v-menu bottom offset-y origin="center top" transition="scale-transition">
+              <template v-slot:activator="{ on }">
+                <v-btn text outlined v-on="on">{{heatSource}}</v-btn>
+              </template>
+                <v-list color="light-blue" flat nav>
+                  <v-list-item v-for="(heatSource,index) in heatSources" :key="index" @click="()=>{ changeHeatSource(heatSource)}">
+                    <v-list-item-title>{{heatSource}}</v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
         </v-col>
-        <v-col cols="3">
-          <v-menu bottom offset-y origin="center top" transition="scale-transition">
-            <template v-slot:activator="{ on }">
-              <v-btn text outlined v-on="on">{{grillMode}}</v-btn>
-            </template>
-            <v-list color="light-blue" flat nav>
-              <v-list-item v-for="(grillMode,index) in grillModes" :key="index" @click="()=>{ changeGrillMode(grillMode)}">
-                <v-list-item-title>{{grillMode}}</v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-menu>
+        <v-col cols="3" class="mx-4">
+            <v-text class="mx-2 font-weight-bold">Modo grill:</v-text>
+
+            <v-menu bottom offset-y origin="center top" transition="scale-transition" align="center" justify="center">
+              <template v-slot:activator="{ on }">
+                <v-btn text outlined v-on="on">{{grillMode}}</v-btn>
+              </template>
+              <v-list color="light-blue" flat nav>
+                <v-list-item v-for="(grillMode,index) in grillModes" :key="index" @click="()=>{ changeGrillMode(grillMode)}">
+                  <v-list-item-title>{{grillMode}}</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
         </v-col>
-        <v-col cols="3">
-          <v-menu bottom offset-y origin="center top" transition="scale-transition">
-            <template v-slot:activator="{ on }">
-              <v-btn text outlined v-on="on">{{convectionMode}}</v-btn>
-            </template>
-            <v-list color="light-blue" flat nav>
-              <v-list-item v-for="(convectionMode,index) in convectionModes" :key="index" @click="()=>{ changeConvectionMode(convectionMode)}">
-                <v-list-item-title>{{convectionMode}}</v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-menu>
+        <v-col cols="3" class="mx-4">
+          <v-text class="mx-2 font-weight-bold">Modo de convección:</v-text>
+            <v-menu bottom offset-y origin="center top" transition="scale-transition">
+              <template v-slot:activator="{ on }">
+                <v-btn text outlined v-on="on">{{convectionMode}}</v-btn>
+              </template>
+              <v-list color="light-blue" flat nav>
+                <v-list-item v-for="(convectionMode,index) in convectionModes" :key="index" @click="()=>{ changeConvectionMode(convectionMode)}">
+                  <v-list-item-title>{{convectionMode}}</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
         </v-col>
       </v-row>
 
