@@ -67,7 +67,7 @@
               <v-btn text outlined v-on="on">{{convectionMode}}</v-btn>
             </template>
             <v-list color="light-blue" flat nav>
-              <v-list-item v-for="(convectionMode,index) in convectionModes" :key="index" @click="()=>{ changeGrillMode(convectionMode)}">
+              <v-list-item v-for="(convectionMode,index) in convectionModes" :key="index" @click="()=>{ changeConvectionMode(convectionMode)}">
                 <v-list-item-title>{{convectionMode}}</v-list-item-title>
               </v-list-item>
             </v-list>
@@ -111,6 +111,9 @@ export default {
     changeGrillMode(grillMode){
       this.grillMode = grillMode;
     },
+    changeConvectionMode(convectionMode){
+        this.convectionMode = convectionMode;
+    }
   }
 
 }
