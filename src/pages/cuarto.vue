@@ -33,7 +33,11 @@ export default {
     };
   },
   mounted() {
-
+    api.roomDevices.getAll(this.$route.params.idCuarto).then((r)=>{
+      this.dispositivos=r.result;
+    }).catch((e)=>{
+      console.error(e);
+    });
   },
   methods:{
     deleteRoom(){

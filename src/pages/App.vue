@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <NavBar v-model="entered"></NavBar>
-    <ToolBar v-if="entered" :pisos="pisos"></ToolBar>
+    <ToolBar v-if="entered"></ToolBar>
     <v-content class="primary">
       <br>
       <router-view></router-view>
@@ -38,18 +38,10 @@ export default {
   components: { NavBar, ToolBar },
   data() {
     return {
-      pisos: [],
       entered: false
     };
   },
   mounted() {
-    let name = "chau";
-    this.pisos.push({
-      name: name,
-      open: () => {
-        this.$router.push("/pisos/" + name);
-      }
-    });
     let entered=sessionStorage.getItem("entered");
     this.entered=entered?true:false;
   }
