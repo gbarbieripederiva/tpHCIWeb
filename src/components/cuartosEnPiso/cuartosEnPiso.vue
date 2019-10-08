@@ -18,7 +18,7 @@
               >
               <v-icon size="200" >{{addIcon}}</v-icon>
               </v-card>
-              <v-card-title class="justify-center">Añadir ambiente</v-card-title>
+              <v-card-title class="justify-center" @click="addCuarto">Añadir ambiente</v-card-title>
             </v-card>
           </v-flex>
         </v-layout>
@@ -46,7 +46,7 @@ export default {
   },
   methods:{
     addCuarto:()=>{
-      console.log("add cuarto");
+
     }
   }
   ,
