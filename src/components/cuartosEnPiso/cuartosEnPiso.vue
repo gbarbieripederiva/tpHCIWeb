@@ -47,6 +47,7 @@
 
 <script>
 import CuartoCard from "./cuartoCard.vue";
+import api from "@/plugins/api.js";
 
 export default {
   name: "CuartosEnPiso",
@@ -62,17 +63,38 @@ export default {
       },
       addIcon: "mdi-plus",
       dialogAddCuarto: false,
-      newCuarto:""
+      newCuarto: "",
+      newCuartoImage:"mdi-home"
     };
   },
   methods: {
-    addCuarto(){
-      this.dialogAddCuarto=false;
-      console.log(this.newCuarto);
+    addCuarto() {
+      this.dialogAddCuarto = false;
+      api.room
+        .add({
+          name: this.newCuarto,
+          meta:{
+            img:this.newCuartoImage
+          }
+        })
+        .then(r => {
+          let newCuarto = {
+            name: r.result.name,
+            img: r.result.meta.img,
+            open: () => {
+              this.$router.push(this.$route.path + "/"+r.result.id);
+            }
+          };
+          this.newCuarto="";
+          this.cuartos.push(newCuarto);
+        }).catch((e)=>{
+          //TODO:IMPLEMENT ERROR SHOWING
+          console.error(e);
+        });
     },
-    cancelAddCuarto(){
-      this.newCuarto="";
-      this.dialogAddCuarto=false;
+    cancelAddCuarto() {
+      this.newCuarto = "";
+      this.dialogAddCuarto = false;
     }
   },
   mounted() {

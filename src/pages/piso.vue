@@ -9,6 +9,7 @@
 
 <script>
 import CuartosEnPiso from "@/components/cuartosEnPiso/cuartosEnPiso.vue";
+import api from "@/plugins/api.js";
 
 export default {
   name: "Piso",
@@ -20,15 +21,20 @@ export default {
     };
   },
   mounted() {
-    for (let i = 0; i < 10; i++) {
-      this.cuartos.push({
-        name: "hola",
-        img: "mdi-anchor",
-        open: () => {
-          this.$router.push(this.$route.path+"/cuartoGuido");
+    api.room.getAll().then((r)=>{
+      this.cuartos=r.result.map((v)=>{
+        return {
+          name:v.name,
+          img:v.meta.img,
+          open:()=>{
+            this.$router.push(this.$route.path+"/"+v.id);
+          }
         }
       });
-    }
+    }).catch((e)=>{
+      //TODO IMPLEMENT ERROR SHOWING
+      console.error(e);
+    });
   }
 };
 </script>
