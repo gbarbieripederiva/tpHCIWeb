@@ -6,7 +6,7 @@
       <v-icon>mdi-pencil</v-icon>
     </p>
     <v-row justify="center" align="center">
-      <DispositivosEnCuarto :dispositivos="dispositivos"></DispositivosEnCuarto>
+      <DispositivosEnCuarto :dispositivos="dispositivos" onclick="addRoom"></DispositivosEnCuarto>
     </v-row>
   </div>
 </template>
@@ -39,6 +39,9 @@ export default {
     this.dispositivos.push({name:"a",type:"Puerta"});
     this.dispositivos.push({name:"a",type:"Alarma"});
     this.dispositivos.push({name:"a",type:"Heladera"});
+  },
+  methods: {
+
   }
 };
 </script>
