@@ -92,7 +92,7 @@ api.device = class{
         return api.baseUrl + "devices/"
     }
 
-    static add(device) {
+    static addDevice(device) {
         return api.post(api.device.url, device);
     }
 
@@ -122,15 +122,45 @@ api.roomDevices = class{
     static get url(){
         return api.baseUrl + "rooms/";
     }
-    static getDevices(roomId){
+    static getAll(roomId){
         return api.get(api.roomDevices.url + roomId + "/" + "devices/");
     }
 
-    static addToRoom(roomId, deviceId){
+    static add(roomId, deviceId){
         return api.post(api.roomDevices.url + roomId + "/" + "devices/" + deviceId + "/");
     }
 
-    static deleteFromRoom(deviceId){
+    static delete(deviceId){
         return api.delete(api.roomDevices.url + deviceId);
     }
+}
+
+api.routines = class{
+    static get url(){
+        return api.baseUrl + "routines/";
+    }
+
+    static getAll() {
+        return api.get(api.routines.url);
+    }
+
+    static get(routineId){
+        return api.get(api.routines.url + routineId);
+    }
+
+    static execute(routineId){
+        return api.put(api.routines.url + routineId + "/execute");
+    }
+
+    static add(routine){
+        return api.post(api.routines.url, routine);
+    }
+
+    static delete(routineId){
+        return api.delete(api.routines.url + routineId);
+    }
+    static modify(routine){
+        return api.put(api.routines.url + routine.id, routine);
+    }
+
 }
