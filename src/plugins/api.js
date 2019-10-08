@@ -111,4 +111,9 @@ api.device = class{
     static getAll(){
         return api.get(api.device.url);
     }
+
+    static getState(id){
+        return api.get(api.device.url + id + "/" + "state/");
+    }
+
 }
