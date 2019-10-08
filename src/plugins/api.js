@@ -165,4 +165,14 @@ api.routines = class{
 
 }
 
+api.deviceType = class {
+    static get url(){
+        return api.baseUrl + "devicetypes/";
+    }
+
+    static getAll(){
+        return api.get(api.deviceType.url);
+    }
+}
+
 export default api;
