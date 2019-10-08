@@ -22,18 +22,21 @@
               <v-dialog v-model="dialogAddCuarto" width="60em">
                 <v-card>
                   <v-container>
-                    <v-row>
-                      <v-text-field
-                        minlength="3"
-                        maxlength="60"
-                        placeholder="Nombre del cuarto"
-                        v-model="newCuarto"
-                      ></v-text-field>
-                    </v-row>
-                    <v-row justify="space-around">
-                      <v-btn @click="addCuarto">Comfirmar</v-btn>
-                      <v-btn @click="cancelAddCuarto">Cancel</v-btn>
-                    </v-row>
+                    <v-form @submit="addCuarto" ref="addCuartoForm">
+                      <v-row>
+                        <v-text-field
+                          maxlength="60"
+                          placeholder="Nombre del cuarto"
+                          :rules="cuartoNombreRules"
+                          required
+                          v-model="newCuarto"
+                        ></v-text-field>
+                      </v-row>
+                      <v-row justify="space-around">
+                        <v-btn type="submit">Comfirmar</v-btn>
+                        <v-btn @click="cancelAddCuarto">Cancel</v-btn>
+                      </v-row>
+                    </v-form>
                   </v-container>
                 </v-card>
               </v-dialog>
@@ -64,17 +67,23 @@ export default {
       addIcon: "mdi-plus",
       dialogAddCuarto: false,
       newCuarto: "",
-      newCuartoImage:"mdi-home"
+      newCuartoImage: "mdi-home",
+      cuartoNombreRules:[
+        (v)=>!!v||'El nombre es obligatorio',
+        v=>(v&&v.length>=3)||'El minimo de caracteres es 3',
+        (v)=>/^[0-9A-Za-z\ _][0-9A-Za-z\ _][0-9A-Za-z\ _][0-9A-Za-z\ _]*$/.test(v)||"El nombre puede contener solamente letras, números, espacio y guion bajo"
+      ]
     };
   },
   methods: {
-    addCuarto() {
-      this.dialogAddCuarto = false;
-      api.room
+    addCuarto(e) {
+      e.preventDefault();
+      if(this.$refs.addCuartoForm.validate()){
+        api.room
         .add({
           name: this.newCuarto,
-          meta:{
-            img:this.newCuartoImage
+          meta: {
+            img: this.newCuartoImage
           }
         })
         .then(r => {
@@ -82,18 +91,27 @@ export default {
             name: r.result.name,
             img: r.result.meta.img,
             open: () => {
-              this.$router.push(this.$route.path + "/"+r.result.id);
+              this.$router.push(this.$route.path + "/" + r.result.id);
             }
           };
-          this.newCuarto="";
+          this.$refs.addCuartoForm.reset();
+          this.newCuarto = "";
           this.cuartos.push(newCuarto);
-        }).catch((e)=>{
+        })
+        .catch(e => {
           //TODO:IMPLEMENT ERROR SHOWING
           console.error(e);
         });
+        this.dialogAddCuarto=false;
+      }else{
+        this.$refs.addCuartoForm.reset();
+        console.error("formularion invalido");
+        this.dialogAddCuarto=false;
+      }
     },
     cancelAddCuarto() {
       this.newCuarto = "";
+      this.$refs.addCuartoForm.reset();
       this.dialogAddCuarto = false;
     }
   },

@@ -38,7 +38,7 @@
 
       <v-row align="center" justify="space-around" class="my-3">
           <v-col >
-            <v-text class="mx-2 font-weight-bold">Fuente de calor:</v-text>
+            <p class="mx-2 font-weight-bold">Fuente de calor:</p>
               <v-menu bottom offset-y origin="center top" transition="scale-transition">
               <template v-slot:activator="{ on }">
                 <v-btn text outlined v-on="on">{{heatSource}}</v-btn>
@@ -51,7 +51,7 @@
               </v-menu>
         </v-col>
         <v-col >
-            <v-text class="mx-2 font-weight-bold">Modo grill:</v-text>
+            <p class="mx-2 font-weight-bold">Modo grill:</p>
 
             <v-menu bottom offset-y origin="center top" transition="scale-transition" align="center" justify="center">
               <template v-slot:activator="{ on }">
@@ -65,7 +65,7 @@
             </v-menu>
         </v-col>
         <v-col>
-          <v-text class="mx-2 font-weight-bold">Modo de convección:</v-text>
+          <p class="mx-2 font-weight-bold">Modo de convección:</p>
             <v-menu bottom offset-y origin="center top" transition="scale-transition">
               <template v-slot:activator="{ on }">
                 <v-btn text outlined v-on="on">{{convectionMode}}</v-btn>
