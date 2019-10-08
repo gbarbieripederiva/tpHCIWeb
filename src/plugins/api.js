@@ -117,3 +117,20 @@ api.device = class{
     }
 
 }
+
+api.roomDevices = class{
+    static get url(){
+        return api.baseUrl + "rooms/";
+    }
+    static getDevices(roomId){
+        return api.get(api.roomDevices.url + roomId + "/" + "devices/");
+    }
+
+    static addToRoom(roomId, deviceId){
+        return api.post(api.roomDevices.url + roomId + "/" + "devices/" + deviceId + "/");
+    }
+
+    static deleteFromRoom(deviceId){
+        return api.delete(api.roomDevices.url + deviceId);
+    }
+}
