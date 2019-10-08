@@ -13,11 +13,11 @@ var routes = [
     component: LoggedOffHome
   },
   {
-    path: "/pisos/:id",
+    path: "/cuartos",
     component: Piso
   },
   {
-    path: "/pisos/:idPiso/:tipoCuarto/:id",
+    path: "/cuartos/:idCuarto",
     component: Cuarto
   },
   {
@@ -44,7 +44,6 @@ router.beforeEach((to, from, next) => {
       entered = false;
     }
     if (!entered) {
-      console.log(to.path);
       next("/");
     } else {
       next();

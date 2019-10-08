@@ -14,20 +14,20 @@ export default {
   name: "Piso",
   components: {
     CuartosEnPiso
+  },data(){
+    return {
+      cuartos:[]
+    };
   },
-  computed: {
-    cuartos() {
-      let cuartos = [];
-      for (let i = 0; i < 10; i++) {
-        cuartos.push({
-          name: "hola",
-          img: "mdi-anchor",
-          open: () => {
-            console.log("hola");
-          }
-        });
-      }
-      return cuartos;
+  mounted() {
+    for (let i = 0; i < 10; i++) {
+      this.cuartos.push({
+        name: "hola",
+        img: "mdi-anchor",
+        open: () => {
+          this.$router.push(this.$route.path+"/cuartoGuido");
+        }
+      });
     }
   }
 };

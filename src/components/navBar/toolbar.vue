@@ -13,17 +13,9 @@
   <nav>
     <v-toolbar height="30" :color="toolbarColor">
       <v-btn text to="/dispositivosFavoritos" small>Dispositivos favoritos</v-btn>
+
       <v-btn text to="/rutinas" small>Rutinas</v-btn>
-      <v-menu bottom offset-y origin="center top" transition="scale-transition">
-        <template v-slot:activator="{ on }">
-          <v-btn text small v-on="on">Pisos</v-btn>
-        </template>
-        <v-list :color="toolbarColor" flat nav>
-          <v-list-item v-for="(piso,index) in pisos" :key="index" @click="piso.open">
-            <v-list-item-title>{{piso.name}}</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
+      <v-btn text to="/cuartos" small>Cuartos</v-btn>
     </v-toolbar>
   </nav>
 </template>
