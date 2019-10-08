@@ -38,9 +38,11 @@ import Persiana from "./dispositivos/persiana";
 import Puerta from "./dispositivos/puerta";
 import DispositivoDesconocido from "./dispositivos/dispositivoDesconocido";
 
+import api from "@/plugins/api.js";
+
 export default {
   name: "Dispositivo",
-  props: ["dispositivo"],
+  props: ["dispositivo","deleteDispositivoFromList"],
   data(){
     return{
       fav:false,
@@ -60,7 +62,12 @@ export default {
     DispositivoDesconocido
   },methods:{
     deleteDispositivo(){
-      console.log("delete "+this.dispositivo.name);
+      api.device.delete(this.dispositivo.id).then((r)=>{
+        this.$emit('deleteDevice',this.dispositivo.id);
+      }).catch((e)=>{
+        console.error(e);
+        
+      });
     },
     favDispositivo(){
       this.fav=!this.fav;

@@ -10,6 +10,7 @@
         v-for="(dispositivo,index) in dispositivos"
         :key="index"
         :dispositivo="dispositivo"
+        @deleteDevice="deleteDispositivo"
       ></Dispositivo>
       <v-card fill-width @click="()=>{dialogAddDispositivo=true}">
         <v-container fill-width class="light-blue my-2">
@@ -87,6 +88,9 @@ export default {
     cancelAddDispositivo() {
       this.dialogAddDispositivo = false;
       (this.newDispositivo = ""), (this.newDispositivoType = -1);
+    },
+    deleteDispositivo(id){
+      this.$emit("deleteDevice",id)
     }
   },
   mounted() {
@@ -100,9 +104,7 @@ export default {
             name: v.name,
             id: v.id
           });
-        }
-        console.log(r.result);
-        
+        }     
       })
       .catch(e => {
         console.error(e);
