@@ -25,7 +25,7 @@ export default {
         name: "hola",
         img: "mdi-anchor",
         open: () => {
-          this.$router.push(this.$route.path+"/dormitorio/cuarto_de_guido");
+          this.$router.push(this.$route.path+"/cuartoGuido");
         }
       });
     }

@@ -13,11 +13,11 @@ var routes = [
     component: LoggedOffHome
   },
   {
-    path: "/pisos/:id",
+    path: "/cuartos",
     component: Piso
   },
   {
-    path: "/pisos/:idPiso/:tipoCuarto/:id",
+    path: "/cuartos/:idCuarto",
     component: Cuarto
   },
   {

@@ -2,7 +2,7 @@
   <div>
     <!-- TODO V-ICON FOR NAME CHANGE -->
     <p class="font-weight-black title">
-      {{$route.params.id.replace(/_/g," ").replace(/^./g,$route.params.id[0].toUpperCase())}}
+      {{$route.params.idCuarto.replace(/_/g," ").replace(/^./g,$route.params.idCuarto[0].toUpperCase())}}
       <v-icon>mdi-pencil</v-icon>
     </p>
     <v-row justify="center" align="center">
