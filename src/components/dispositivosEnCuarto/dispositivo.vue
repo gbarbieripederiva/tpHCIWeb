@@ -43,10 +43,10 @@ import api from "@/plugins/api.js";
 export default {
   name: "Dispositivo",
   props: ["dispositivo", "deleteDispositivoFromList"],
-  data() {
-    return {
-      favColor: ""
-    };
+  computed:{
+    favColor(){
+      return !!this.dispositivo.meta&&!!this.dispositivo.meta.fav?"yellow":"";
+    }
   },
   components: {
     AireAcondicionado,
@@ -86,7 +86,6 @@ export default {
         .modify(this.dispositivo.id,device)
         .then(r => {
           this.dispositivo.meta = device.meta;
-          this.favColor = device.meta.fav ? "yellow" : "";
         })
         .catch(e => {
           console.error(e);
