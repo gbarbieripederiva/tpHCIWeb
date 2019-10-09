@@ -1,7 +1,7 @@
 <template>
   <v-container fill-width>
     <v-row>
-      <v-col>
+      <v-col >
         <v-row></v-row>
         <v-row align="center" justify="center">
           <p>Color/Intesidad</p>
@@ -51,7 +51,6 @@ export default {
       else{
         api.device.putAction(this.dispositivo.id, "turnOff")
       }
-      console.log();
       this.state = !this.state;
       this.state == true ? this.stateColor = "yellow" : this.stateColor = "";
 
