@@ -57,7 +57,6 @@ export default {
       },
 
     setColorAndBrightness(){
-      console.log("hola")
       api.device.putAction(this.dispositivo.id, "setColor",[this.color.substr(1,6)]);
       api.device.putAction(this.dispositivo.id, "setBrightness", [parseInt(this.color.substr(7,8), 16)]);
     }

@@ -2,7 +2,7 @@
   <v-container fill-width>
     <v-row>
       <v-spacer></v-spacer>
-      <v-switch v-model="isOn">
+      <v-switch @change="OnOff" v-model="isOn" >
         <template v-slot:prepend>
           <v-icon>mdi-power-off</v-icon>
         </template>
@@ -20,6 +20,7 @@
                   v-model="temperature"
                   :min="tempRange[0]"
                   :max="tempRange[1]"
+                  @click="setTemp"
 
           >
             <template v-slot:append>
@@ -83,8 +84,11 @@
 </template>
 
 <script>
+import api from "../../../plugins/api";
+
 export default {
     name:"Horno",
+    props: ["dispositivo"],
   data(){
     return{
       isOn: false,
@@ -104,19 +108,31 @@ export default {
       plusTemp(){
         if(this.temperature < this.tempRange[1])
           this.temperature += 1;
+          api.device.putAction(this.dispositivo.id, "setTemperature", [this.temperature]);
       },
       minusTemp(){
         if(this.temperature > this.tempRange[0])
           this.temperature -= 1;
+        api.device.putAction(this.dispositivo.id, "setTemperature", [this.temperature]);
+    },
+    setTemp(){
+      api.device.putAction(this.dispositivo.id, "setTemperature", [this.temperature]);
     },
     changeHeatSource(heatSource){
         this.heatSource = heatSource;
+        api.device.putAction(this.dispositivo.id, "setHeat", [this.heatSource])
     },
     changeGrillMode(grillMode){
       this.grillMode = grillMode;
+      api.device.putAction(this.dispositivo.id, "setGrill", [this.grillMode]);
     },
     changeConvectionMode(convectionMode){
         this.convectionMode = convectionMode;
+        api.device.putAction(this.dispositivo.id, "setConvection", [this.convectionMode]);
+    },
+    OnOff(){
+        let action = (this.isOn === true ? "turnOn" : "turnOff");
+        api.device.putAction(this.dispositivo.id, action);
     }
   }
 
