@@ -12,6 +12,7 @@
             v-model="color"
             :hide-mode-switch="false"
             mode="rgba"
+            @click="setColorAndBrightness"
           ></v-color-picker>
         </v-row>
       </v-col>
@@ -41,16 +42,21 @@ export default {
   methods:{
     changeState(){
       if(this.state == false){
-        api.device.putAction(this.dispositivo.id, "turnOn").then((r) => {
-        this.state = r;}).catch(e=>{
-          console.error(e);});
+        api.device.putAction(this.dispositivo.id, "turnOn")
       }
       else{
-        api.device.putAction(this.dispositivo.id, "turnOff").then((r) => {
-          this.state = r;}).catch(e=>{
-          console.error(e);});
+        api.device.putAction(this.dispositivo.id, "turnOff")
       }
-      }
+      console.log();
+      this.state = !this.state;
+      this.state == true ? this.stateColor = "yellow" : this.stateColor = "";
+
+      },
+
+    setColorAndBrightness(){
+      api.device.putAction(this.dispositivo.id, "setColor", this.color.substr(1,6));
+      api.device.putAction(this.dispositivo.id, "setBrightness", parseInt(this.color.substr(7,8), 16));
+    }
 
 
   },
