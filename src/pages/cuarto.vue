@@ -7,7 +7,7 @@
       <v-icon @click="deleteRoom">mdi-delete</v-icon>
     </p>
     <v-row justify="center" align="center">
-      <DispositivosEnCuarto :dispositivos="dispositivos"></DispositivosEnCuarto>
+      <DispositivosEnCuarto @deleteDevice="deleteDispositivo" :dispositivos="dispositivos"></DispositivosEnCuarto>
     </v-row>
 
   </div>
@@ -33,7 +33,11 @@ export default {
     };
   },
   mounted() {
-
+    api.roomDevices.getAll(this.$route.params.idCuarto).then((r)=>{
+      this.dispositivos=r.result;
+    }).catch((e)=>{
+      console.error(e);
+    });
   },
   methods:{
     deleteRoom(){
@@ -44,6 +48,11 @@ export default {
           console.error(e);
         });
       }
+    },
+    deleteDispositivo(id){
+      this.dispositivos=this.dispositivos.filter((v)=>{
+        return v.id!=id;
+      })
     }
   }
 };

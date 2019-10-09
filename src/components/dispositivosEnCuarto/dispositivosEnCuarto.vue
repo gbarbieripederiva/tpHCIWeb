@@ -10,14 +10,40 @@
         v-for="(dispositivo,index) in dispositivos"
         :key="index"
         :dispositivo="dispositivo"
+        @deleteDevice="deleteDispositivo"
       ></Dispositivo>
+      <v-card fill-width @click="()=>{dialogAddDispositivo=true}">
+        <v-container fill-width class="light-blue my-2">
+          <v-row justify="center" align="center">Añadir dispositivo</v-row>
+        </v-container>
+      </v-card>
+      <v-dialog v-model="dialogAddDispositivo">
+        <v-card>
+          <v-form @submit="addDispositivo">
+            <v-text-field class="mx-4" v-model="newDispositivo" placeholder="Nombre"></v-text-field>
+            <v-select
+            class="mx-4"
+            label="Tipo"
+            :items="deviceTypes"
+            v-model="newDispositivoType"
+            item-text="name"
+            item-value="id"
+            >
 
+            </v-select>
+            <v-btn type="submit" @click="dialogAddDispositivo=false">Comfirmar</v-btn>
+            <v-btn type="reset" @click="cancelAddDispositivo">Cancelar</v-btn>
+          </v-form>
+        </v-card>
+      </v-dialog>
     </v-card>
   </div>
 </template>
 
 <script>
 import Dispositivo from "./dispositivo";
+import api from "@/plugins/api.js";
+
 export default {
   name: "DispositivosEnCuarto",
   props: ["dispositivos"],
@@ -30,15 +56,59 @@ export default {
         width: 0,
         height: 0
       },
-      addIcon: "mdi-plus"
+      addIcon: "mdi-plus",
+      deviceTypes: [],
+      dialogAddDispositivo: false,
+      newDispositivo: "",
+      newDispositivoType: -1
     };
   },
   methods: {
-    addDispositivo: () => {}
+    addDispositivo(e) {
+      e.preventDefault();
+      api.device.addDevice({
+        name:this.newDispositivo,
+        type:{
+          id:this.newDispositivoType
+        }
+      }).then((r)=>{
+        api.roomDevices.add(this.$route.params.idCuarto,r.result.id).then((res)=>{
+          this.dispositivos.push(r.result);
+        }).catch(e=>{
+          console.error(e);
+          
+        });
+      }).catch((e)=>{
+        console.error(e);
+        
+      });
+      this.newDispositivo = "";
+      this.newDispositivoType = -1;
+    },
+    cancelAddDispositivo() {
+      this.dialogAddDispositivo = false;
+      (this.newDispositivo = ""), (this.newDispositivoType = -1);
+    },
+    deleteDispositivo(id){
+      this.$emit("deleteDevice",id)
+    }
   },
   mounted() {
-    this.sizeOfCard.width = window.innerWidth-40;
-    this.sizeOfCard.height = window.innerHeight - 250;
+    this.sizeOfCard.width = window.innerWidth - 40;
+    this.sizeOfCard.height = window.innerHeight - 300;
+    api.deviceType
+      .getAll()
+      .then(r => {
+        for (let v of r.result) {
+          this.deviceTypes.push({
+            name: v.name,
+            id: v.id
+          });
+        }     
+      })
+      .catch(e => {
+        console.error(e);
+      });
   }
 };
 </script>

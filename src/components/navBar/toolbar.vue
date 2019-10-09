@@ -1,15 +1,4 @@
 <template>
-  <!--  
-    receives pisos with the following format
-    pisos:[
-        {
-            name:"algo",
-            open:()=>{
-                funcion que abre ese piso
-            }
-        }
-    ]
-  -->
   <nav>
     <v-toolbar height="30" :color="toolbarColor">
       <v-btn text to="/dispositivosFavoritos" small>Dispositivos favoritos</v-btn>
@@ -22,7 +11,6 @@
 <script>
 export default {
   name: "ToolBar",
-  props: ["pisos"],
   data(){
     return{
       toolbarColor:'rgb(138,196,180)'
