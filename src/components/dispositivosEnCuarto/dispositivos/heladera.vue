@@ -13,6 +13,7 @@
             v-model="tempFreezer"
             :max="tempFrezeerRange[1]"
             :min="tempFrezeerRange[0]"
+            @click="setFreezerTemp"
           >
             <template v-slot:append>
               <v-icon @click="plusFrezeerTemp">mdi-plus</v-icon>
@@ -38,6 +39,7 @@
             v-model="tempHeladera"
             :min="tempHeladeraRange[0]"
             :max="tempHeladeraRange[1]"
+            @click="setTemp"
             
           >
             <template v-slot:append>
@@ -69,8 +71,11 @@
 </template>
 
 <script>
+import api from "../../../plugins/api";
+
 export default {
   name: "heladera",
+  props: ["dispositivo"],
   data() {
     return {
       modos: ["Fiesta", "Vacaciones", "Normal"],
@@ -83,27 +88,41 @@ export default {
     };
   },
   methods: {
+    setTemp(){
+      api.device.putAction(this.dispositivo.id, "setTemperature", [this.tempHeladera]);
+    },
+    setFreezerTemp(){
+      api.device.putAction(this.dispositivo.id, "setFreezerTemperature", [this.tempFreezer]);
+    },
     changeModo(modo) {
       this.modo = modo;
+      api.device.putAction(this.dispositivo.id, "setMode", [this.modo]);
     },
     plusFrezeerTemp() {
-      if (this.tempFreezer > this.tempFrezeerRange[0]) {
+      if (this.tempFreezer < this.tempFrezeerRange[1]) {
         this.tempFreezer += 1;
+        api.device.putAction(this.dispositivo.id, "setFreezerTemperature", [this.tempFreezer]);
       }
+
+
     },
     plusHeladeraTemp() {
       if (this.tempHeladera < this.tempHeladeraRange[1]) {
         this.tempHeladera += 1;
+        api.device.putAction(this.dispositivo.id, "setTemperature", [this.tempHeladera]);
+
       }
     },
     minusHeladeraTemp() {
       if (this.tempHeladera > this.tempHeladeraRange[0]) {
         this.tempHeladera -= 1;
+        api.device.putAction(this.dispositivo.id, "setTemperature", [this.tempHeladera]);
       }
     },
     minusFrezeerTemp() {
       if (this.tempFreezer > this.tempFrezeerRange[0]) {
         this.tempFreezer -= 1;
+        api.device.putAction(this.dispositivo.id, "setFreezerTemperature", [this.tempFreezer]);
       }
     }
   }
