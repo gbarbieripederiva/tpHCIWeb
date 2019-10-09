@@ -42,11 +42,10 @@ import api from "@/plugins/api.js";
 
 export default {
   name: "Dispositivo",
-  props: ["dispositivo","deleteDispositivoFromList"],
-  data(){
-    return{
-      fav:false,
-      favColor:""
+  props: ["dispositivo", "deleteDispositivoFromList"],
+  data() {
+    return {
+      favColor: ""
     };
   },
   components: {
@@ -60,22 +59,41 @@ export default {
     Persiana,
     Puerta,
     DispositivoDesconocido
-  },methods:{
-    deleteDispositivo(){
-      api.device.delete(this.dispositivo.id).then((r)=>{
-        this.$emit('deleteDevice',this.dispositivo.id);
-      }).catch((e)=>{
-        console.error(e);
-        
-      });
+  },
+  methods: {
+    deleteDispositivo() {
+      api.device
+        .delete(this.dispositivo.id)
+        .then(r => {
+          this.$emit("deleteDevice", this.dispositivo.id);
+        })
+        .catch(e => {
+          console.error(e);
+        });
     },
-    favDispositivo(){
-      this.fav=!this.fav;
-      this.favColor=this.fav?"yellow":"";
+    favDispositivo() {
+      let device = {
+        name: this.dispositivo.name,
+        meta: {
+          ...(this.dispositivo.meta ? this.dispositivo.meta : {}),
+          fav:
+            this.dispositivo.meta && this.dispositivo.meta.fav
+              ? !this.dispositivo.meta.fav
+              : true
+        }
+      };
+      api.device
+        .modify(this.dispositivo.id,device)
+        .then(r => {
+          this.dispositivo.meta = device.meta;
+          this.favColor = device.meta.fav ? "yellow" : "";
+        })
+        .catch(e => {
+          console.error(e);
+        });
     },
-    editDispositivo(){
-      console.log("edit "+ this.dispositivo.name);
-      
+    editDispositivo() {
+      console.log("edit " + this.dispositivo.name);
     }
   }
 };

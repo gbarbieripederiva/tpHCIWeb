@@ -96,8 +96,8 @@ api.device = class{
         return api.post(api.device.url, device);
     }
 
-    static modify(device) {
-        return api.put(api.device.url + device.id, device);
+    static modify(deviceId,deviceChange) {
+        return api.put(api.device.url + deviceId, deviceChange);
 
     }
 
