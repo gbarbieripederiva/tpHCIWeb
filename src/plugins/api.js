@@ -116,6 +116,10 @@ api.device = class{
         return api.get(api.device.url + id + "/" + "state/");
     }
 
+    static putAction(deviceId, actionName, values){
+        return api.put(api.device.url + deviceId + "/" + actionName, values);
+    }
+
 }
 
 api.roomDevices = class{
