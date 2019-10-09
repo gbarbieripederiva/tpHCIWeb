@@ -27,6 +27,7 @@
 </template>
 
 <script>
+  import api from "@/plugins/api.js";
 export default {
   name: "Lampara",
   props: ["dispositivo"],
@@ -39,9 +40,19 @@ export default {
   },
   methods:{
     changeState(){
-      this.state=!this.state;
-      this.stateColor=this.state?"yellow":"";
-    }
+      if(this.state == false){
+        api.device.putAction(this.dispositivo.id, "turnOn").then((r) => {
+        this.state = r;}).catch(e=>{
+          console.error(e);});
+      }
+      else{
+        api.device.putAction(this.dispositivo.id, "turnOff").then((r) => {
+          this.state = r;}).catch(e=>{
+          console.error(e);});
+      }
+      }
+
+
   },
   mounted() {
     this.color = this.dispositivo.color ? this.dispositivo.color : this.color;

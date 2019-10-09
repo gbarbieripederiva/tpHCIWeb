@@ -117,8 +117,10 @@ api.device = class{
     }
 
     static putAction(deviceId, actionName, values){
-        return api.put(api.device.url + deviceId + "/" + actionName, values);
+        return api.put(api.device.url + deviceId + "/" + actionName, typeof values==='undefined'?{}:values);
     }
+
+
 
 }
 
