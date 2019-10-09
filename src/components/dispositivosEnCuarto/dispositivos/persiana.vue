@@ -14,23 +14,67 @@
         </div>
       </v-col>
     </v-row>
+    <v-row align="center" justify="center">
+      <v-slider
+              v-model="level"
+              readonly
+              color="lime accent-2"
+              max="100"
+              min="0"
+              > </v-slider>
+      <p class="pa-2 white">{{level}}%</p>
+    </v-row>
   </v-container>
 </template>
 
 <script>
+import api from "../../../plugins/api";
+
 export default {
   name: "Persiana",
+  props: ["dispositivo"],
   data() {
     return {
       isUp: true,
+      level: 100,
+      alreadyMoving:false,
+      interval:null,
     };
   },
-  methods:{
-    goUp(){
+  methods: {
+    goUp() {
       this.isUp = true;
+      api.device.putAction(this.dispositivo.id, "open").catch(e => {
+        console.error(e);
+      });
+      if(this.level > 0) {
+        this.interval = setInterval(() => {
+                  if (this.level > 0 && this.isUp == true)
+                    this.level = this.level - 1;
+                  else {
+                    clearInterval(this.interval);
+                    this.alreadyMoving == false;
+
+                  }
+                }
+                , 1000);
+      }
+
     },
-    goDown(){
+      goDown() {
       this.isUp = false;
+      api.device.putAction(this.dispositivo.id, "close").catch(e => {
+        console.error(e);
+      });
+        if(this.level < 100){
+          this.interval = setInterval(() => {
+            if(this.level < 100 && this.isUp == false)
+              this.level = this.level + 1;
+
+              clearInterval(this.interval);}
+            , 1000);
+      }
+
     }
   }
 };
