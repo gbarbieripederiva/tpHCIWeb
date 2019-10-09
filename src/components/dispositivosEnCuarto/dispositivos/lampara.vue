@@ -12,7 +12,6 @@
             v-model="color"
             :hide-mode-switch="false"
             mode="rgba"
-            @click="setColorAndBrightness"
           ></v-color-picker>
         </v-row>
       </v-col>
@@ -32,6 +31,11 @@
 export default {
   name: "Lampara",
   props: ["dispositivo"],
+  watch:{
+    color(){
+      this.setColorAndBrightness();
+    }
+  },
   data() {
     return {
       color: "",
@@ -54,8 +58,9 @@ export default {
       },
 
     setColorAndBrightness(){
-      api.device.putAction(this.dispositivo.id, "setColor", this.color.substr(1,6));
-      api.device.putAction(this.dispositivo.id, "setBrightness", parseInt(this.color.substr(7,8), 16));
+      console.log("hola")
+      api.device.putAction(this.dispositivo.id, "setColor",[this.color.substr(1,6)]);
+      api.device.putAction(this.dispositivo.id, "setBrightness", [parseInt(this.color.substr(7,8), 16)]);
     }
 
 
