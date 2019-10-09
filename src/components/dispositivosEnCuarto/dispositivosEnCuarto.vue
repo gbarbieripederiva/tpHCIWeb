@@ -11,6 +11,7 @@
         :key="index"
         :dispositivo="dispositivo"
       ></Dispositivo>
+
     </v-card>
   </div>
 </template>

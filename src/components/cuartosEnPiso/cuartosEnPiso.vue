@@ -25,11 +25,11 @@
                     <v-form @submit="addCuarto" ref="addCuartoForm">
                       <v-row>
                         <v-text-field
-                          maxlength="60"
-                          placeholder="Nombre del cuarto"
-                          :rules="cuartoNombreRules"
-                          required
-                          v-model="newCuarto"
+                                maxlength="60"
+                                placeholder="Nombre del cuarto"
+                                :rules="cuartoNombreRules"
+                                required
+                                v-model="newCuarto"
                         ></v-text-field>
                       </v-row>
                       <v-row justify="space-around">

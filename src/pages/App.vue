@@ -13,12 +13,12 @@
       <img src="@/assets/youtoube.png" height="50px" width="50px">
       <img src="@/assets/twitter.png" height="50px" width="50px">
       <v-spacer></v-spacer>
-      <v-list flat class="mx-3">
+      <v-list class="mx-3">
         <h1 class="font-weight-bold subtitle-1">Compañía</h1>
         <li class="body-2">Acerca de</li>
         <li class="body-2">Otros proyectos</li>
       </v-list >
-      <v-list flat class="mx-3">
+      <v-list class="mx-3">
         <h1 class="font-weight-bold subtitle-1">Enlaces útiles</h1>
         <li class="body-2">Ayuda</li>
         <li class="body-2">Descargar aplicación móvil</li>
