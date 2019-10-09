@@ -90,11 +90,14 @@
 </template>
 
 <script>
+import api from "../../../plugins/api";
+
 export default {
   name: "AireAcondicionado",
+  props:["dispositivo"],
   data() {
     return {
-      prendido: true,
+      prendido: false,
       colorPrendido: "light-green",
       temp: 18,
       tempRange: [18, 38],
@@ -112,9 +115,13 @@ export default {
   methods: {
     changeModo(modo) {
       this.modo = modo;
+      api.device.putAction(this.dispositivo.id, "setMode", [this.modo]).catch(e => {console.error(e);
+      });
     },
     changeVelocidad(velocidad) {
       this.velocidad = velocidad;
+      api.device.putAction(this.dispositivo.id, "setFanSpeed", [this.velocidad]).catch(e => {console.error(e);
+      });
     },
     power(){
       this.prendido=!this.prendido;
@@ -123,6 +130,9 @@ export default {
       }else{
         this.colorPrendido="";
       }
+      let action = (this.prendido === true ? "turnOn" : "turnOff");
+      api.device.putAction(this.dispositivo.id, action).catch(e => {console.error(e);
+      });
     }
   }
 };

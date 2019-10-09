@@ -108,31 +108,38 @@ export default {
       plusTemp(){
         if(this.temperature < this.tempRange[1])
           this.temperature += 1;
-          api.device.putAction(this.dispositivo.id, "setTemperature", [this.temperature]);
+          api.device.putAction(this.dispositivo.id, "setTemperature", [this.temperature]).catch(e => {console.error(e);
+          });
       },
       minusTemp(){
         if(this.temperature > this.tempRange[0])
           this.temperature -= 1;
-        api.device.putAction(this.dispositivo.id, "setTemperature", [this.temperature]);
+        api.device.putAction(this.dispositivo.id, "setTemperature", [this.temperature]).catch(e => {console.error(e);
+        });
     },
     setTemp(){
-      api.device.putAction(this.dispositivo.id, "setTemperature", [this.temperature]);
+      api.device.putAction(this.dispositivo.id, "setTemperature", [this.temperature]).catch(e => {console.error(e);
+      });
     },
     changeHeatSource(heatSource){
         this.heatSource = heatSource;
-        api.device.putAction(this.dispositivo.id, "setHeat", [this.heatSource])
+        api.device.putAction(this.dispositivo.id, "setHeat", [this.heatSource]).catch(e => {console.error(e);
+        })
     },
     changeGrillMode(grillMode){
       this.grillMode = grillMode;
-      api.device.putAction(this.dispositivo.id, "setGrill", [this.grillMode]);
+      api.device.putAction(this.dispositivo.id, "setGrill", [this.grillMode]).catch(e => {console.error(e);
+      });
     },
     changeConvectionMode(convectionMode){
         this.convectionMode = convectionMode;
-        api.device.putAction(this.dispositivo.id, "setConvection", [this.convectionMode]);
+        api.device.putAction(this.dispositivo.id, "setConvection", [this.convectionMode]).catch(e => {console.error(e);
+        });
     },
     OnOff(){
         let action = (this.isOn === true ? "turnOn" : "turnOff");
-        api.device.putAction(this.dispositivo.id, action);
+        api.device.putAction(this.dispositivo.id, action).catch(e => {console.error(e);
+        });
     }
   }
 

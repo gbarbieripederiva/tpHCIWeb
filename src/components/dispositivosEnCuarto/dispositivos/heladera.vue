@@ -89,19 +89,23 @@ export default {
   },
   methods: {
     setTemp(){
-      api.device.putAction(this.dispositivo.id, "setTemperature", [this.tempHeladera]);
+      api.device.putAction(this.dispositivo.id, "setTemperature", [this.tempHeladera]).catch(e => {console.error(e);
+      });
     },
     setFreezerTemp(){
-      api.device.putAction(this.dispositivo.id, "setFreezerTemperature", [this.tempFreezer]);
+      api.device.putAction(this.dispositivo.id, "setFreezerTemperature", [this.tempFreezer]).catch(e => {console.error(e);
+      });
     },
     changeModo(modo) {
       this.modo = modo;
-      api.device.putAction(this.dispositivo.id, "setMode", [this.modo]);
+      api.device.putAction(this.dispositivo.id, "setMode", [this.modo]).catch(e => {console.error(e);
+      });
     },
     plusFrezeerTemp() {
       if (this.tempFreezer < this.tempFrezeerRange[1]) {
         this.tempFreezer += 1;
-        api.device.putAction(this.dispositivo.id, "setFreezerTemperature", [this.tempFreezer]);
+        api.device.putAction(this.dispositivo.id, "setFreezerTemperature", [this.tempFreezer]).catch(e => {console.error(e);
+        });
       }
 
 
@@ -109,20 +113,23 @@ export default {
     plusHeladeraTemp() {
       if (this.tempHeladera < this.tempHeladeraRange[1]) {
         this.tempHeladera += 1;
-        api.device.putAction(this.dispositivo.id, "setTemperature", [this.tempHeladera]);
+        api.device.putAction(this.dispositivo.id, "setTemperature", [this.tempHeladera]).catch(e => {console.error(e);
+        });
 
       }
     },
     minusHeladeraTemp() {
       if (this.tempHeladera > this.tempHeladeraRange[0]) {
         this.tempHeladera -= 1;
-        api.device.putAction(this.dispositivo.id, "setTemperature", [this.tempHeladera]);
+        api.device.putAction(this.dispositivo.id, "setTemperature", [this.tempHeladera]).catch(e => {console.error(e);
+        });
       }
     },
     minusFrezeerTemp() {
       if (this.tempFreezer > this.tempFrezeerRange[0]) {
         this.tempFreezer -= 1;
-        api.device.putAction(this.dispositivo.id, "setFreezerTemperature", [this.tempFreezer]);
+        api.device.putAction(this.dispositivo.id, "setFreezerTemperature", [this.tempFreezer]).catch(e => {console.error(e);
+        });
       }
     }
   }
