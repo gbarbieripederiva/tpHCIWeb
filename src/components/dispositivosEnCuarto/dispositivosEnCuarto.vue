@@ -12,7 +12,14 @@
         :dispositivo="dispositivo"
         @deleteDevice="deleteDispositivo"
       ></Dispositivo>
-      <v-card fill-width @click="()=>{dialogAddDispositivo=true}">
+      <v-card v-if="dispositivos.length==0&&!!notShowAdd" fill-width>
+        <v-container fill-width class="light-blue my-2">
+          <v-row justify="center" align="center">
+            <p>No hay dispositivos favoritos</p>
+          </v-row>
+        </v-container>
+      </v-card>
+      <v-card v-if="!notShowAdd" fill-width @click="()=>{dialogAddDispositivo=true}">
         <v-container fill-width class="light-blue my-2">
           <v-row justify="center" align="center">Añadir dispositivo</v-row>
         </v-container>
@@ -46,7 +53,7 @@ import api from "@/plugins/api.js";
 
 export default {
   name: "DispositivosEnCuarto",
-  props: ["dispositivos"],
+  props: ["dispositivos","notShowAdd"],
   components: {
     Dispositivo
   },
