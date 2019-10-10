@@ -5,6 +5,7 @@ import Piso from "@/pages/piso.vue";
 import DispositivosFavoritos from "@/pages/dispositivosFavoritos.vue";
 import Rutinas from "@/pages/rutinas.vue";
 import Cuarto from "@/pages/cuarto.vue";
+import AddRutina from "@/pages/addRutina.vue";
 
 Vue.use(VueRouter);
 var routes = [
@@ -27,6 +28,10 @@ var routes = [
   {
     path: "/rutinas",
     component: Rutinas
+  },
+  {
+    path:"/añadirRutina",
+    component:AddRutina
   },
   {
     path: "*",
