@@ -27,17 +27,22 @@
       <v-dialog v-model="dialogAddDispositivo">
         <v-card>
           <v-form @submit="addDispositivo">
-            <v-text-field class="mx-4" v-model="newDispositivo" placeholder="Nombre"></v-text-field>
+            <v-text-field
+              class="mx-4"
+              maxlength="60"
+              :rules="dispositivoNombreRules"
+              required
+              v-model="newDispositivo"
+              placeholder="Nombre"
+            ></v-text-field>
             <v-select
-            class="mx-4"
-            label="Tipo"
-            :items="deviceTypes"
-            v-model="newDispositivoType"
-            item-text="name"
-            item-value="id"
-            >
-
-            </v-select>
+              class="mx-4"
+              label="Tipo"
+              :items="deviceTypes"
+              v-model="newDispositivoType"
+              item-text="name"
+              item-value="id"
+            ></v-select>
             <v-btn type="submit" @click="dialogAddDispositivo=false">Comfirmar</v-btn>
             <v-btn type="reset" @click="cancelAddDispositivo">Cancelar</v-btn>
           </v-form>
@@ -53,7 +58,7 @@ import api from "@/plugins/api.js";
 
 export default {
   name: "DispositivosEnCuarto",
-  props: ["dispositivos","notShowAdd"],
+  props: ["dispositivos", "notShowAdd"],
   components: {
     Dispositivo
   },
@@ -67,28 +72,41 @@ export default {
       deviceTypes: [],
       dialogAddDispositivo: false,
       newDispositivo: "",
-      newDispositivoType: -1
+      newDispositivoType: -1,
+      dispositivoNombreRules: [
+        v => !!v || "El nombre es obligatorio",
+        v => (v && v.length >= 3) || "El minimo de caracteres es 3",
+        v =>
+          /^[0-9A-Za-z\ _][0-9A-Za-z\ _][0-9A-Za-z\ _][0-9A-Za-z\ _]*$/.test(
+            v
+          ) ||
+          "El nombre puede contener solamente letras, números, espacio y guion bajo"
+      ]
     };
   },
   methods: {
     addDispositivo(e) {
       e.preventDefault();
-      api.device.addDevice({
-        name:this.newDispositivo,
-        type:{
-          id:this.newDispositivoType
-        }
-      }).then((r)=>{
-        api.roomDevices.add(this.$route.params.idCuarto,r.result.id).then((res)=>{
-          this.dispositivos.push(r.result);
-        }).catch(e=>{
+      api.device
+        .addDevice({
+          name: this.newDispositivo,
+          type: {
+            id: this.newDispositivoType
+          }
+        })
+        .then(r => {
+          api.roomDevices
+            .add(this.$route.params.idCuarto, r.result.id)
+            .then(res => {
+              this.dispositivos.push(r.result);
+            })
+            .catch(e => {
+              console.error(e);
+            });
+        })
+        .catch(e => {
           console.error(e);
-          
         });
-      }).catch((e)=>{
-        console.error(e);
-        
-      });
       this.newDispositivo = "";
       this.newDispositivoType = -1;
     },
@@ -96,8 +114,8 @@ export default {
       this.dialogAddDispositivo = false;
       (this.newDispositivo = ""), (this.newDispositivoType = -1);
     },
-    deleteDispositivo(id){
-      this.$emit("deleteDevice",id)
+    deleteDispositivo(id) {
+      this.$emit("deleteDevice", id);
     }
   },
   mounted() {
@@ -111,7 +129,7 @@ export default {
             name: v.name,
             id: v.id
           });
-        }     
+        }
       })
       .catch(e => {
         console.error(e);
