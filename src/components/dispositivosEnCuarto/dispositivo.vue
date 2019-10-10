@@ -43,10 +43,10 @@ import api from "@/plugins/api.js";
 export default {
   name: "Dispositivo",
   props: ["dispositivo", "deleteDispositivoFromList"],
-  computed:{
-    favColor(){
-      return !!this.dispositivo.meta&&!!this.dispositivo.meta.fav?"yellow":"";
-    }
+  data() {
+    return {
+      favColor: ""
+    };
   },
   components: {
     AireAcondicionado,
@@ -83,8 +83,12 @@ export default {
         }
       };
       api.device
-        .modify(this.dispositivo.id,device)
+        .modify(this.dispositivo.id, device)
         .then(r => {
+          this.favColor =
+            !!device.meta && !!device.meta.fav
+              ? "yellow"
+              : "";
           this.dispositivo.meta = device.meta;
         })
         .catch(e => {
@@ -94,6 +98,10 @@ export default {
     editDispositivo() {
       console.log("edit " + this.dispositivo.name);
     }
+  },
+  mounted() {
+    this.favColor =
+      !!this.dispositivo.meta && !!this.dispositivo.meta.fav ? "yellow" : "";
   }
 };
 </script>

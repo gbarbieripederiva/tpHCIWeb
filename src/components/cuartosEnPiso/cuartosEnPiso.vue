@@ -19,13 +19,14 @@
                 <v-icon size="200">{{addIcon}}</v-icon>
               </v-card>
               <v-card-title class="justify-center">Añadir cuarto</v-card-title>
-              <v-dialog v-model="dialogAddCuarto" width="60em">
+              <v-dialog v-model="dialogAddCuarto" max-width="68em">
                 <v-card>
                   <v-container>
                     <v-form @submit="addCuarto" ref="addCuartoForm">
                       <v-row>
                         <v-text-field
                                 maxlength="60"
+                                class="mx-4"
                                 placeholder="Nombre del cuarto"
                                 :rules="cuartoNombreRules"
                                 required
