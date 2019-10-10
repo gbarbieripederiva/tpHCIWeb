@@ -44,7 +44,7 @@ export default {
   methods: {
     goUp() {
       this.isUp = true;
-      api.device.putAction(this.dispositivo.id, "open").catch(e => {
+      api.device.putAction(this.dispositivo.id, "open").then(r => console.log(r)).catch(e => {
         console.error(e);
       });
       if(this.level > 0) {
