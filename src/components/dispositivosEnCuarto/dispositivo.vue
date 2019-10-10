@@ -100,7 +100,6 @@ export default {
   mounted() {
     this.favColor =
       !!this.dispositivo.meta && !!this.dispositivo.meta.fav ? "yellow" : "";
-      console.log(this.dispositivo);
       
   }
 };
