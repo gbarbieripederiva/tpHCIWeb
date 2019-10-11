@@ -1,5 +1,5 @@
 <template>
-  <v-content class="primary">
+  <v-content class="blue darken-2">
     <v-container fluid>
       <v-row fill-height align="center" justify="center">
         <v-img max-width="250" :src="require('@/assets/logo.png')"></v-img>

@@ -6,6 +6,8 @@ import DispositivosFavoritos from "@/pages/dispositivosFavoritos.vue";
 import Rutinas from "@/pages/rutinas.vue";
 import Cuarto from "@/pages/cuarto.vue";
 import AddRutina from "@/pages/addRutina.vue";
+import Ayuda from "../pages/Ayuda";
+import AcercaDe from "../pages/AcercaDe";
 
 Vue.use(VueRouter);
 var routes = [
@@ -36,6 +38,14 @@ var routes = [
   {
     path: "*",
     component: LoggedOffHome
+  },
+  {
+    path: "/acercaDe",
+    component: AcercaDe
+  },
+  {
+    path: "/Ayuda",
+    component: Ayuda
   }
 ];
 var router = new VueRouter({ mode: "history", routes });
