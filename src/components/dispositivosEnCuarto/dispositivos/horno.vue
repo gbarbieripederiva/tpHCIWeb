@@ -188,6 +188,13 @@ export default {
         });
       }
     }
+  },
+  mounted() {
+      this.grillMode = this.dispositivo.state.grill;
+      this.convectionMode = this.dispositivo.state.convection;
+      this.heatSource = this.dispositivo.state.heat;
+      this.temperature = this.dispositivo.state.temperature;
+      this.isOn = this.dispositivo.state.status === "off" ? false : true;
   }
 };
 </script>
