@@ -16,7 +16,7 @@
         <v-container fill-width >
           <v-row justify="center" align="center">
             <v-row align="center" justify="center">
-              <p class="font-weight-bold display-1">No ha seleccionado ningún dispositivo como favorito</p>
+              <p class="font-weight-bold headline">No ha seleccionado ningún dispositivo como favorito</p>
             </v-row>
             <v-row align="center" justify="center">
               <p> Para ello debe seleccionar el siguiente ícono en cualquiera de sus dispositivos <v-icon>mdi-star-outline</v-icon></p>

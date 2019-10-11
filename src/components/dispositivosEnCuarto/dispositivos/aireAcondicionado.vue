@@ -42,7 +42,7 @@
             <v-icon>mdi-fan</v-icon>
             <v-menu bottom offset-y origin="center top" transition="scale-transition">
               <template v-slot:activator="{ on }">
-                <v-btn text x-large outlined v-on="on">{{velocidad}}</v-btn>
+                <v-btn text x-large outlined v-on="on">{{velocidad==="auto"?velocidad:velocidad+"%"}}</v-btn>
               </template>
               <v-list color="light-blue" flat nav>
                 <v-list-item
@@ -50,7 +50,7 @@
                   :key="index"
                   @click="()=>{ changeVelocidad(velocidad)}"
                 >
-                  <v-list-item-title>{{velocidad}}</v-list-item-title>
+                  <v-list-item-title>{{velocidad==="auto"?velocidad:velocidad+"%"}}</v-list-item-title>
                 </v-list-item>
               </v-list>
             </v-menu>
@@ -110,14 +110,19 @@ export default {
       tempRange: [18, 38],
       modos: ["Ventilacion", "Calor", "Frio"],
       modo: "Ventilacion",
-      yAxisValues: [22, 45, 67, 90],
+      modoTranslater:{
+        "Ventilacion":"fan",
+        "Calor":"heat",
+        "Frio":"cool"
+      },
+      yAxisValues: ["22", "45", "67", "90"],
       yAxis: 0,
       xAxis: 2,
-      xAxisValues: [-90, -45, 0, 45, 90],
+      xAxisValues: ["-90", "-45", "0", "45", "90"],
       autoX: false,
       autoY: false,
-      velocidad: "100%",
-      velocidades: ["100%", "75%", "50%", "25%", "Auto"]
+      velocidad: "100",
+      velocidades: ["100", "75", "50", "25", "auto"]
     };
   },
   methods: {
@@ -125,7 +130,7 @@ export default {
       if (!this.dispositivo.routines) {
         api.device
           .putAction(this.dispositivo.id, "setTemperature", [
-            this.temp.toString()
+            this.temp
           ])
           .then(r => {
             this.dispositivo.state.temperature = this.temp;
@@ -141,12 +146,12 @@ export default {
       this.modo = modo;
       if (!this.dispositivo.routines) {
         api.device
-          .putAction(this.dispositivo.id, "setMode", [this.modo])
+          .putAction(this.dispositivo.id, "setMode", [this.modoTranslater[this.modo]])
           .catch(e => {
             console.error(e);
           });
       }else{
-        this.dispositivo.routines.actions[2].params=[this.modo];
+        this.dispositivo.routines.actions[2].params=[this.modoTranslater[this.modo]];
       }
     },
     changeVelocidad(velocidad) {
@@ -211,7 +216,7 @@ export default {
     },
     changeAutoY(e) {
       if (!this.dispositivo.routines) {
-        let action = e ? "auto" : 22;
+        let action = e ? "auto" : "22";
         api.device
           .putAction(this.dispositivo.id, "setVerticalSwing", [
             action.toString()
@@ -229,7 +234,7 @@ export default {
     },
     changeAutoX(e) {
       if (!this.dispositivo.routines) {
-        let action = e ? "auto" : 0;
+        let action = e ? "auto" : "0";
         api.device
           .putAction(this.dispositivo.id, "setHorizontalSwing", [
             action.toString()
@@ -267,7 +272,7 @@ export default {
       this.dispositivo.routines.actions=[
         {name:"turnOff",params:[]},
         {name:"setTemperature",params:[this.temp]},
-        {name:"setMode",params:[this.modo]},
+        {name:"setMode",params:[this.modoTranslater[this.modo]]},
         {name:"setVerticalSwing",params:[this.yAxisValues[this.yAxis]]},
         {name:"setHorizontalSwing",params:[this.xAxisValues[this.xAxis]]},
         {name:"setFanSpeed",params:[this.velocidad]}

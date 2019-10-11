@@ -159,9 +159,7 @@ export default {
               id:d.id
             },
             actionName:a.name,
-            params:a.params.map((v)=>{
-              return v.toString();
-            }),
+            params:a.params,
             meta:{
               deviceName:d.name
             }
