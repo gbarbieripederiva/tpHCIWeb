@@ -2,8 +2,7 @@
   <div>
     <!-- TODO V-ICON FOR NAME CHANGE -->
     <p class="font-weight-black title">
-      {{$route.params.idCuarto.replace(/_/g," ").replace(/^./g,$route.params.idCuarto[0].toUpperCase())}}
-      <v-icon>mdi-pencil</v-icon>
+      {{$route.params.nameCuarto.replace(/_/g," ").replace(/^./g,$route.params.nameCuarto[0].toUpperCase())}}
       <v-icon @click="deleteRoom">mdi-delete</v-icon>
     </p>
     <v-row justify="center" align="center">

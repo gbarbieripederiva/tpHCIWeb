@@ -148,15 +148,32 @@ export default {
       this.step = 2;
     },
     addRutina() {
-      // let rutina = {
-      //   name: this.rutinaName,
-      //   actions: []
-      // };
-      // rutina.actions = this.dispositivosSelected.map(v => {
-      //   return {};
-      // });
-      // this.$router.push("rutinas");
-      console.log(this.dispositivosSelected);
+      let rutina = {
+        name: this.rutinaName,
+        actions: []
+      };
+      this.dispositivosSelected.forEach((d)=>{
+        d.routines.actions.forEach((a)=>{
+          rutina.actions.push({
+            device:{
+              id:d.id
+            },
+            actionName:a.name,
+            params:a.params.map((v)=>{
+              return v.toString();
+            }),
+            meta:{
+              deviceName:d.name
+            }
+          });
+        })
+      })
+      api.routines.add(rutina).then((r)=>{
+        this.$router.push("rutinas");
+      }).catch(e=>{
+        console.error(e);
+        this.$router.push("rutinas");
+      });
     },
     comfirmNameRutina() {
       if (this.$refs.nameForm.validate()) {

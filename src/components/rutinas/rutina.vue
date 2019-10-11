@@ -2,7 +2,8 @@
   <v-card fill-width class="light-blue my-2">
     <v-container fill-width>
       <v-row class="px-3" align="center">
-        <p>{{rutina.name}}</p>
+        <p class="mt-4 mr-2">{{rutina.name}}</p>
+        <v-icon @click="deleteRutina">mdi-delete</v-icon>
         <v-spacer></v-spacer>
         <v-dialog v-model="dialogShowRoutine">
           <template v-slot:activator="{on}">
@@ -36,6 +37,9 @@ export default {
               console.error(e);
               
           });
+      },
+      deleteRutina(){
+        this.$emit("deleteRutina",this.rutina.id);
       }
   }
 };
