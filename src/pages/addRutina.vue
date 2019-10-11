@@ -1,9 +1,37 @@
 <template>
   <div>
     <v-row justify="center" align="center">
-      <v-stepper class="transparent" flat v-model="step">
+      <v-dialog persistent v-model="dialogName" max-width="68em">
+        <v-card>
+          <v-form ref="nameForm">
+            <v-container>
+              <v-row>
+                <v-text-field
+                  maxlength="60"
+                  class="mx-4"
+                  placeholder="Nombre de la rutina"
+                  :rules="rutinaNombreRules"
+                  required
+                  v-model="rutinaNameTemp"
+                ></v-text-field>
+              </v-row>
+              <v-row justify="space-around">
+                <v-btn @click="comfirmNameRutina">Comfirmar</v-btn>
+                <v-btn @click="cancelNameRutina">Cancel</v-btn>
+              </v-row>
+            </v-container>
+          </v-form>
+        </v-card>
+      </v-dialog>
+      <v-container class="pa-0">
+        <v-row justify="center">
+          <p class="ma-0 headline">{{rutinaName}}</p>
+          <v-icon v-if="rutinaName.length>0" @click="dialogName=true">mdi-pencil</v-icon>
+        </v-row>
+      </v-container>
+      <v-stepper class="mt-0 transparent" flat v-model="step">
         <v-stepper-items>
-          <v-stepper-content step="1">
+          <v-stepper-content class="pa-0" step="1">
             <template>
               <v-card class="grey px-4">
                 <v-container>
@@ -32,7 +60,7 @@
                                   <v-checkbox
                                     :input-value="active"
                                     :true-value="dispositivo.id"
-                                     color="black black"
+                                    color="black black"
                                     @click="toggle"
                                   ></v-checkbox>
                                 </v-list-item-action>
@@ -51,7 +79,7 @@
               </v-card>
             </template>
           </v-stepper-content>
-          <v-stepper-content step="2">
+          <v-stepper-content class="pa-0" step="2">
             <template>
               <v-card class="grey px-4">
                 <v-container>
@@ -99,16 +127,49 @@ export default {
       },
       dispositivos: [],
       rutinaName: "",
+      rutinaNameTemp: "",
+      dialogName: true,
+      rutinaNombreRules: [
+        v => !!v || "El nombre es obligatorio",
+        v => (v && v.length >= 3) || "El minimo de caracteres es 3",
+        v =>
+          /^[0-9A-Za-z\ _][0-9A-Za-z\ _][0-9A-Za-z\ _][0-9A-Za-z\ _]*$/.test(
+            v
+          ) ||
+          "El nombre puede contener solamente letras, números, espacio y guion bajo"
+      ],
+
       step: 1,
-      dispositivosSelected:[]
+      dispositivosSelected: []
     };
   },
   methods: {
-    nextStep(){
-      console.log(this.dispositivosSelected);
-      this.step=2;
+    nextStep() {
+      this.step = 2;
     },
     addRutina() {
+      let rutina = {
+        name: this.rutinaName,
+        actions: []
+      };
+      rutina.actions = this.dispositivosSelected.map(v => {
+        return {};
+      });
+      this.$router.push("rutinas");
+    },
+    comfirmNameRutina() {
+      if (this.$refs.nameForm.validate()) {
+        this.rutinaName = this.rutinaNameTemp;
+        this.dialogName = false;
+      }
+    },
+    cancelNameRutina() {
+      if (this.rutinaName !== "") {
+        this.rutinaNameTemp = this.rutinaName;
+        this.dialogName = false;
+      } else {
+        this.$router.push("rutinas");
+      }
     }
   },
   mounted() {
@@ -121,7 +182,7 @@ export default {
         this.dispositivos = r.devices;
         this.dispositivos.forEach(v => {
           v.routines = {
-            actions:[]
+            actions: []
           };
         });
       })
