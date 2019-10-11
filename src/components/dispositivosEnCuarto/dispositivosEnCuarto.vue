@@ -19,9 +19,11 @@
           </v-row>
         </v-container>
       </v-card>
-      <v-card v-if="!notShowAdd" fill-width @click="()=>{dialogAddDispositivo=true}">
-        <v-container fill-width class="light-blue my-2">
-          <v-row justify="center" align="center">Añadir dispositivo</v-row>
+      <v-card class="grey" raised v-if="!notShowAdd" fill-width @click="()=>{dialogAddDispositivo=true}">
+        <v-container fill-width>
+          <v-row justify="center" align="center">
+            <p class="font-weight-bold headline"><v-icon class="mx-1">mdi-plus-box</v-icon>Añadir dispositivo </p>
+          </v-row>
         </v-container>
       </v-card>
       <v-dialog v-model="dialogAddDispositivo">

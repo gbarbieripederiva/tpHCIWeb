@@ -9,8 +9,10 @@
       >
         <Rutina v-for="rutina in rutinas" :key="rutina.id" :rutina="rutina"></Rutina>
         <v-card fill-width to="añadirRutina">
-          <v-container fill-width class="light-blue  my-2">
-            <v-row justify="center" align="center">Añadir rutina</v-row>
+          <v-container fill-width raised class="grey  my-2">
+            <v-row justify="center" align="center">
+              <p class="font-weight-bold headline"><v-icon class="mx-1">mdi-plus-box</v-icon> Añadir rutina </p>
+            </v-row>
           </v-container>
         </v-card>
       </v-card>
