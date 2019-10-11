@@ -6,12 +6,12 @@
         <v-row align="center" justify="center">
           <p>Color/Intesidad</p>
           <v-color-picker
-            class="transparent"
-            flat
-            :hide-canvas="true"
-            v-model="color"
-            :hide-mode-switch="false"
-            mode="rgba"
+                  class="transparent"
+                  flat
+                  :hide-canvas="true"
+                  v-model="color"
+                  :hide-mode-switch="false"
+                  mode="rgba"
           ></v-color-picker>
         </v-row>
       </v-col>
@@ -28,43 +28,47 @@
 
 <script>
   import api from "@/plugins/api.js";
-export default {
-  name: "Lampara",
-  props: ["dispositivo"],
-  watch:{
-    color(){
-      this.setColorAndBrightness();
-    }
-  },
-  data() {
-    return {
-      color: "",
-      state:false,
-      stateColor:""
-    };
-  },
-  methods:{
-    changeState(){
-      if(this.state == false){
-        api.device.putAction(this.dispositivo.id, "turnOn")
+  export default {
+    name: "Lampara",
+    props: ["dispositivo"],
+    watch:{
+      color(){
+        this.setColorAndBrightness();
       }
-      else{
-        api.device.putAction(this.dispositivo.id, "turnOff")
-      }
-      this.state = !this.state;
-      this.state == true ? this.stateColor = "yellow" : this.stateColor = "";
+    },
+    data() {
+      return {
+        color: "",
+        state:false,
+        stateColor:""
+      };
+    },
+    methods:{
+      changeState(){
+        if(this.state == false){
+          api.device.putAction(this.dispositivo.id, "turnOn")
+        }
+        else{
+          api.device.putAction(this.dispositivo.id, "turnOff")
+        }
+        this.state = !this.state;
+        this.state == true ? this.stateColor = "yellow" : this.stateColor = "";
 
       },
 
-    setColorAndBrightness(){
-      api.device.putAction(this.dispositivo.id, "setColor",[this.color.substr(1,6)]);
-      api.device.putAction(this.dispositivo.id, "setBrightness", [parseInt(this.color.substr(7,8), 16)]);
+      setColorAndBrightness(){
+        console.log("hola")
+        api.device.putAction(this.dispositivo.id, "setColor",[this.color.substr(1,6)]).then(r => {
+          api.device.putAction(this.dispositivo.id, "setBrightness", [parseInt(this.color.substr(7,8), 16)/ 2.55] );});
+
+        console.log('chau');
+      }
+
+
+    },
+    mounted() {
+      this.color = this.dispositivo.color ? this.dispositivo.color : this.color;
     }
-
-
-  },
-  mounted() {
-    this.color = this.dispositivo.color ? this.dispositivo.color : this.color;
-  }
-};
+  };
 </script>
+

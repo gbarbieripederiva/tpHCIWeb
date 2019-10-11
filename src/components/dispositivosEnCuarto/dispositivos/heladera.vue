@@ -169,6 +169,13 @@ export default {
         }
       }
     }
+  },
+  mounted() {
+    this.modo = this.dispositivo.state.mode;
+    this.tempFreezer = this.dispositivo.state.freezerTemperature;
+    this.tempHeladera = this.dispositivo.state.temperature;
+
   }
 };
+
 </script>
