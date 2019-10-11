@@ -14,6 +14,24 @@
                   mode="rgba"
           ></v-color-picker>
         </v-row>
+        <v-row>
+          <v-slider
+                  step="1"
+                  ticks
+                  v-model="brightness"
+                  :min="0"
+                  :max="100"
+                  @click="setBrightness"
+
+          >
+            <template v-slot:prepend>
+              <v-icon>mdi-brightness-4</v-icon>
+            </template>
+            <template v-slot:append>
+              <v-icon>mdi-brightness-5</v-icon>
+            </template>
+          </v-slider>
+        </v-row>
       </v-col>
       <v-col>
         <v-row justify="center" align="center">
@@ -33,41 +51,51 @@
     props: ["dispositivo"],
     watch:{
       color(){
-        this.setColorAndBrightness();
+        this.setColor();
       }
     },
     data() {
       return {
         color: "",
         state:false,
-        stateColor:""
+        stateColor: "",
+        brightness: 50
       };
     },
     methods:{
       changeState(){
-        if(this.state == false){
-          api.device.putAction(this.dispositivo.id, "turnOn")
-        }
-        else{
-          api.device.putAction(this.dispositivo.id, "turnOff")
+        if(!this.dispositivo.routines) {
+          if (this.state == false) {
+            api.device.putAction(this.dispositivo.id, "turnOn")
+          } else {
+            api.device.putAction(this.dispositivo.id, "turnOff")
+          }
         }
         this.state = !this.state;
         this.state == true ? this.stateColor = "yellow" : this.stateColor = "";
 
       },
 
-      setColorAndBrightness(){
-        console.log("hola")
-        api.device.putAction(this.dispositivo.id, "setColor",[this.color.substr(1,6)]).then(r => {
-          api.device.putAction(this.dispositivo.id, "setBrightness", [parseInt(this.color.substr(7,8), 16)/ 2.55] );});
+      setColor(){
+        if(!this.dispositivo.routines) {
+          api.device.putAction(this.dispositivo.id, "setColor", [this.color.substr(1, 6)]);
+        }
 
-        console.log('chau');
+      },
+      setBrightness(){
+        if(!this.dispositivo.routines) {
+          api.device.putAction(this.dispositivo.id, "setBrightness", [this.brightness]);
+        }
       }
 
 
     },
-    mounted() {
-      this.color = this.dispositivo.color ? this.dispositivo.color : this.color;
+    mounted(){
+      this.color = "#".concat(this.dispositivo.state.color);
+      this.brightness = this.dispositivo.state.brightness;
+      this.state = (this.dispositivo.state.status == "on" ? true : false);
+      this.stateColor = this.state == true ? "yellow" : "";
+
     }
   };
 </script>

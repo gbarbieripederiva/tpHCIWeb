@@ -6,7 +6,7 @@
           <v-icon @click="goUp">mdi-arrow-up</v-icon>
         </template>
         <template v-slot:prepend>
-          <v-icon @click="goDown">mdi-arrow-down</v-icon>
+           <v-icon @click="goDown">mdi-arrow-down</v-icon>
         </template>
       </v-slider>
     </v-row>
