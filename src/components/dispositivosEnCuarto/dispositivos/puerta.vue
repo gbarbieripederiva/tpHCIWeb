@@ -50,45 +50,50 @@ export default {
   },
   methods: {
     closeAction(e) {
-      let action = e ? "close" : "open";
-      api.device.putAction(this.dispositivo.id, action).then(r => {
-        if (!r.result) {
-          api.device.getState(this.dispositivo.id).then(r2 => {
-            this.dispositivo.state = r2.result;
-          });
-        }
-        this.dispositivo.state.status = e ? "closed" : "opened";
-        this.setState();
-      });
+      if (!this.dispositivo.routines) {
+        let action = e ? "close" : "open";
+        api.device.putAction(this.dispositivo.id, action).then(r => {
+          if (!r.result) {
+            api.device.getState(this.dispositivo.id).then(r2 => {
+              this.dispositivo.state = r2.result;
+            });
+          }
+          this.dispositivo.state.status = e ? "closed" : "opened";
+          this.setState();
+        });
+      }
     },
     lockAction(e) {
-      let action;
-      if(e){
-        action = "lock" 
-        if(this.dispositivo.state.status==="opened"){
-          this.closeAction(true);
+      if (!this.dispositivo.routines) {
+        let action;
+        if (e) {
+          action = "lock";
+          if (!this.isClosed) {
+            this.closeAction(true);
+          }
+        } else {
+          action = "unlock";
         }
-      }else{
-        action ="unlock";
+        api.device.putAction(this.dispositivo.id, action).then(r => {
+          if (!r.result) {
+            api.device.getState(this.dispositivo.id).then(r2 => {
+              this.dispositivo.state = r2.result;
+            });
+          }
+          this.dispositivo.state.lock = e ? "locked" : "unlocked";
+          this.setState();
+        });
       }
-      api.device.putAction(this.dispositivo.id, action).then(r => {
-        if (!r.result) {
-          api.device.getState(this.dispositivo.id).then(r2 => {
-            this.dispositivo.state = r2.result;
-          });
-        }
-        this.dispositivo.state.lock = e ? "locked" : "unlocked";
-        this.setState();
-      });
     },
     setState() {
       this.isLocked = this.dispositivo.state.lock === "locked" ? true : false;
       this.isClosed = this.dispositivo.state.status === "closed" ? true : false;
-      console.log(this.dispositivo.state)
     }
   },
   mounted() {
-    this.setState();
+    if (!this.dispositivo.routines) {
+      this.setState();
+    }
   }
 };
 </script>

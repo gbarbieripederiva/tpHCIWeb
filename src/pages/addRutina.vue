@@ -120,7 +120,9 @@ export default {
       .then(r => {
         this.dispositivos = r.devices;
         this.dispositivos.forEach(v => {
-          v.routines = {};
+          v.routines = {
+            actions:[]
+          };
         });
       })
       .catch(e => {
