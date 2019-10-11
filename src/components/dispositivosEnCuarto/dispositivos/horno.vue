@@ -127,6 +127,9 @@ export default {
           .catch(e => {
             console.error(e);
           });
+      } else {
+        if (this.temperature < this.tempRange[1]) this.temperature++;
+        this.dispositivo.routines.actions[1].params = [this.temperature];
       }
     },
     minusTemp() {
@@ -137,6 +140,9 @@ export default {
           .catch(e => {
             console.error(e);
           });
+      } else {
+        if (this.temperature > this.tempRange[0]) this.temperature--;
+        this.dispositivo.routines.actions[1].params = [this.temperature];
       }
     },
     setTemp() {
@@ -146,16 +152,20 @@ export default {
           .catch(e => {
             console.error(e);
           });
+      } else {
+        this.dispositivo.routines.actions[1].params = [this.temperature];
       }
     },
     changeHeatSource(heatSource) {
+      this.heatSource = heatSource;
       if (!this.dispositivo.routines) {
-        this.heatSource = heatSource;
         api.device
           .putAction(this.dispositivo.id, "setHeat", [this.heatSource])
           .catch(e => {
             console.error(e);
           });
+      } else {
+        this.dispositivo.routines.actions[2].params = [this.heatSource];
       }
     },
     changeGrillMode(grillMode) {
@@ -166,6 +176,8 @@ export default {
           .catch(e => {
             console.error(e);
           });
+      } else {
+        this.dispositivo.routines.actions[4].params = [this.grillMode];
       }
     },
     changeConvectionMode(convectionMode) {
@@ -178,6 +190,8 @@ export default {
           .catch(e => {
             console.error(e);
           });
+      } else {
+        this.dispositivo.routines.actions[3].params = [this.convectionMode];
       }
     },
     OnOff() {
@@ -186,15 +200,29 @@ export default {
         api.device.putAction(this.dispositivo.id, action).catch(e => {
           console.error(e);
         });
+      } else {
+        this.dispositivo.routines.actions[0].name = this.isOn
+          ? "turnOn"
+          : "turnOff";
       }
     }
   },
   mounted() {
+    if (!this.dispositivo.routines) {
       this.grillMode = this.dispositivo.state.grill;
       this.convectionMode = this.dispositivo.state.convection;
       this.heatSource = this.dispositivo.state.heat;
       this.temperature = this.dispositivo.state.temperature;
       this.isOn = this.dispositivo.state.status === "off" ? false : true;
+    } else {
+      this.dispositivo.routines.actions = [
+        { name: "turnOff", params: [] },
+        { name: "setTemperature", params: [this.temperature] },
+        { name: "setHeat", params: [this.heatSource] },
+        { name: "setConvection", params: [this.convectionMode] },
+        { name: "setGrill", params: [this.grillMode] }
+      ];
+    }
   }
 };
 </script>
