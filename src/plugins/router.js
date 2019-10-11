@@ -18,7 +18,7 @@ var routes = [
     component: Piso
   },
   {
-    path: "/cuartos/:idCuarto",
+    path: "/cuartos/:idCuarto/:nameCuarto",
     component: Cuarto
   },
   {

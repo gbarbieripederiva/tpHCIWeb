@@ -2,7 +2,6 @@
   <v-card fillWidth class="light-blue my-2">
     <v-card-title>
       {{dispositivo.name}}
-      <v-icon v-if="!dispositivo.routines" @click="editDispositivo">mdi-pencil</v-icon>
       <v-spacer></v-spacer>
       <v-icon v-if="!dispositivo.routines" :color="favColor" @click="favDispositivo">mdi-star</v-icon>
     </v-card-title>
@@ -95,9 +94,6 @@ export default {
         .catch(e => {
           console.error(e);
         });
-    },
-    editDispositivo() {
-      console.log("edit " + this.dispositivo.name);
     }
   },
   mounted() {

@@ -27,7 +27,7 @@ export default {
           name:v.name,
           img:v.meta.img,
           open:()=>{
-            this.$router.push(this.$route.path+"/"+v.id);
+            this.$router.push(this.$route.path+"/"+v.id+"/"+v.name);
           }
         }
       });
