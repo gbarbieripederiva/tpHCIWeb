@@ -90,6 +90,8 @@ export default {
           .catch(e => {
             console.error(e);
           });
+      }else{
+        this.dispositivo.routines.actions[1].params=[this.tempHeladera];
       }
     },
     setFreezerTemp() {
@@ -101,6 +103,8 @@ export default {
           .catch(e => {
             console.error(e);
           });
+      }else{
+        this.dispositivo.routines.actions[2].params=[this.tempFreezer];
       }
     },
     changeModo(modo) {
@@ -111,6 +115,8 @@ export default {
           .catch(e => {
             console.error(e);
           });
+      }else{
+        this.dispositivo.routines.actions[0].params=[this.modo];
       }
     },
     plusFrezeerTemp() {
@@ -124,6 +130,8 @@ export default {
             .catch(e => {
               console.error(e);
             });
+        } else {
+          this.dispositivo.routines.actions[2].params = [this.tempFreezer];
         }
       }
     },
@@ -138,6 +146,8 @@ export default {
             .catch(e => {
               console.error(e);
             });
+        } else {
+          this.dispositivo.routines.actions[1].params = [this.tempHeladera];
         }
       }
     },
@@ -152,6 +162,8 @@ export default {
             .catch(e => {
               console.error(e);
             });
+        } else {
+          this.dispositivo.routines.actions[1].params = [this.tempHeladera];
         }
       }
     },
@@ -166,16 +178,24 @@ export default {
             .catch(e => {
               console.error(e);
             });
+        } else {
+          this.dispositivo.routines.actions[2].params = [this.tempFreezer];
         }
       }
     }
   },
   mounted() {
-    this.modo = this.dispositivo.state.mode;
-    this.tempFreezer = this.dispositivo.state.freezerTemperature;
-    this.tempHeladera = this.dispositivo.state.temperature;
-
+    if (!this.dispositivo.routines) {
+      this.modo = this.dispositivo.state.mode;
+      this.tempFreezer = this.dispositivo.state.freezerTemperature;
+      this.tempHeladera = this.dispositivo.state.temperature;
+    } else {
+      this.dispositivo.routines.actions = [
+        { name: "setMode", params: [this.modo] },
+        { name: "setTemperature", params: [this.tempHeladera] },
+        { name: "setFreezerTemperature", params: [this.tempFreezer] }
+      ];
+    }
   }
 };
-
 </script>

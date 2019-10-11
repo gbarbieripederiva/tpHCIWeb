@@ -105,14 +105,14 @@ export default {
   data() {
     return {
       prendido: false,
-      colorPrendido: "light-green",
+      colorPrendido: "",
       temp: 18,
       tempRange: [18, 38],
       modos: ["Ventilacion", "Calor", "Frio"],
       modo: "Ventilacion",
       yAxisValues: [22, 45, 67, 90],
       yAxis: 0,
-      xAxis: 0,
+      xAxis: 2,
       xAxisValues: [-90, -45, 0, 45, 90],
       autoX: false,
       autoY: false,
@@ -133,6 +133,8 @@ export default {
           .catch(e => {
             console.error(e);
           });
+      }else{
+        this.dispositivo.routines.actions[1].params=[this.temp];
       }
     },
     changeModo(modo) {
@@ -143,6 +145,8 @@ export default {
           .catch(e => {
             console.error(e);
           });
+      }else{
+        this.dispositivo.routines.actions[2].params=[this.modo];
       }
     },
     changeVelocidad(velocidad) {
@@ -153,6 +157,8 @@ export default {
           .catch(e => {
             console.error(e);
           });
+      }else{
+        this.dispositivo.routines.actions[5].params=[this.velocidad];
       }
     },
     power() {
@@ -167,6 +173,8 @@ export default {
         api.device.putAction(this.dispositivo.id, action).catch(e => {
           console.error(e);
         });
+      }else{
+        this.dispositivo.routines.actions[0].name=this.prendido?"turnOn":"turnOff";
       }
     },
     changeYaxis(e) {
@@ -181,6 +189,8 @@ export default {
           .catch(e => {
             console.error(e);
           });
+      }else{
+        this.dispositivo.routines.actions[3].params=[this.yAxisValues[e]];
       }
     },
     changeXaxis(e) {
@@ -195,6 +205,8 @@ export default {
           .catch(e => {
             console.error(e);
           });
+      }else{
+        this.dispositivo.routines.actions[4].params=[this.xAxisValues[e]];
       }
     },
     changeAutoY(e) {
@@ -211,6 +223,8 @@ export default {
           .catch(e => {
             console.error(e);
           });
+      }else{
+        this.dispositivo.routines.actions[3].params=e?["auto"]:["22"];
       }
     },
     changeAutoX(e) {
@@ -227,6 +241,8 @@ export default {
           .catch(e => {
             console.error(e);
           });
+      }else{
+        this.dispositivo.routines.actions[4].params=e?["auto"]:["0"];
       }
     }
   },
@@ -247,6 +263,15 @@ export default {
       this.temp = this.dispositivo.state.temperature;
       this.prendido = this.dispositivo.state.status === "on" ? true : false;
       this.colorPrendido = this.prendido ? "light-green" : "";
+    }else{
+      this.dispositivo.routines.actions=[
+        {name:"turnOff",params:[]},
+        {name:"setTemperature",params:[this.temp]},
+        {name:"setMode",params:[this.modo]},
+        {name:"setVerticalSwing",params:[this.yAxisValues[this.yAxis]]},
+        {name:"setHorizontalSwing",params:[this.xAxisValues[this.xAxis]]},
+        {name:"setFanSpeed",params:[this.velocidad]}
+      ]
     }
   }
 };

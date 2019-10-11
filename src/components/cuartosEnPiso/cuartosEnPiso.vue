@@ -1,13 +1,13 @@
 <template>
   <div>
-    <v-card :height="sizeOfCard.height" :width="sizeOfCard.width" class="overflow-y-auto">
+    <v-card :height="sizeOfCard.height" :width="sizeOfCard.width" class="overflow-y-auto light-blue">
       <v-container grid-list-xl class="overflow-y-">
         <v-layout row wrap justify-space-start>
           <v-flex v-for="(cuarto,index) in cuartos" :key="index" md4>
             <cuartoCard :cuarto="cuarto"></cuartoCard>
           </v-flex>
           <v-flex md4>
-            <v-card height="250" width="250" align="center" justify="center" flat>
+            <v-card height="250" width="250" align="center" justify="center" flat class="transparent">
               <v-card
                 height="200"
                 width="200"
