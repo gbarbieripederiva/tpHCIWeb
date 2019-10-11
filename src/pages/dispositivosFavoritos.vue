@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p class="font-weight-black title">
+    <p class="font-weight-black title mx-5">
       Dispositivos favoritos
     </p>
     <v-row justify="center" align="center">

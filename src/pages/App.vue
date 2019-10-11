@@ -2,7 +2,7 @@
   <v-app>
     <NavBar v-model="entered"></NavBar>
     <ToolBar v-if="entered"></ToolBar>
-    <v-content class="primary">
+    <v-content class="blue darken-2">
       <br>
       <router-view></router-view>
     </v-content>

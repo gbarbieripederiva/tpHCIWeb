@@ -11,7 +11,7 @@
         <v-card fill-width to="añadirRutina">
           <v-container fill-width raised class="grey  my-2">
             <v-row justify="center" align="center">
-              <p class="font-weight-bold headline"><v-icon class="mx-1">mdi-plus-box</v-icon> Añadir rutina </p>
+              <p class="font-weight-bold headline"> Añadir rutina <v-icon class="mx-1">mdi-plus-box</v-icon></p>
             </v-row>
           </v-container>
         </v-card>

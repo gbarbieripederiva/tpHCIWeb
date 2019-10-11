@@ -1,7 +1,7 @@
 
 <template>
-  <div>
-    <v-row justify="center" align="center">
+  <div >
+    <v-row justify="center" align="center" >
       <CuartosEnPiso :cuartos="cuartos"></CuartosEnPiso>
     </v-row>
   </div>

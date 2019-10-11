@@ -12,17 +12,22 @@
         :dispositivo="dispositivo"
         @deleteDevice="deleteDispositivo"
       ></Dispositivo>
-      <v-card v-if="dispositivos.length==0&&!!notShowAdd" fill-width>
-        <v-container fill-width class="light-blue my-2">
+      <v-card v-if="dispositivos.length==0&&!!notShowAdd" fill-width class="light-blue my-2">
+        <v-container fill-width >
           <v-row justify="center" align="center">
-            <p>No hay dispositivos favoritos</p>
+            <v-row align="center" justify="center">
+              <p class="font-weight-bold display-1">No ha seleccionado ningún dispositivo como favorito</p>
+            </v-row>
+            <v-row align="center" justify="center">
+              <p> Para ello debe seleccionar el siguiente ícono en cualquiera de sus dispositivos <v-icon>mdi-star-outline</v-icon></p>
+            </v-row>
           </v-row>
         </v-container>
       </v-card>
       <v-card class="grey" raised v-if="!notShowAdd" fill-width @click="()=>{dialogAddDispositivo=true}">
         <v-container fill-width>
           <v-row justify="center" align="center">
-            <p class="font-weight-bold headline"><v-icon class="mx-1">mdi-plus-box</v-icon>Añadir dispositivo </p>
+            <p class="font-weight-bold headline">Añadir dispositivo<v-icon class="mx-1">mdi-plus-box</v-icon> </p>
           </v-row>
         </v-container>
       </v-card>
