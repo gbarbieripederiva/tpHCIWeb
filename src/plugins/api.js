@@ -155,7 +155,7 @@ api.routines = class{
     }
 
     static execute(routineId){
-        return api.put(api.routines.url + routineId + "/execute");
+        return api.put(api.routines.url + routineId + "/execute",{});
     }
 
     static add(routine){

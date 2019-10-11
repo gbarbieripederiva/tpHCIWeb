@@ -92,7 +92,7 @@ export default {
             name: r.result.name,
             img: r.result.meta.img,
             open: () => {
-              this.$router.push(this.$route.path + "/" + r.result.id);
+              this.$router.push(this.$route.path + "/" + r.result.id + "/" + r.result.name);
             }
           };
           this.$refs.addCuartoForm.reset();
