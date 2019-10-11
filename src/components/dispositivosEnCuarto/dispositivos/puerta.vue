@@ -61,6 +61,8 @@ export default {
           this.dispositivo.state.status = e ? "closed" : "opened";
           this.setState();
         });
+      }else{
+        this.dispositivo.routines.actions[0].name=e?"close":"open"
       }
     },
     lockAction(e) {
@@ -83,6 +85,9 @@ export default {
           this.dispositivo.state.lock = e ? "locked" : "unlocked";
           this.setState();
         });
+      }else{
+        this.dispositivo.routines.actions[0].name="close";
+        this.dispositivo.routines.actions[1].name=e?"lock":"unlock"
       }
     },
     setState() {
@@ -93,6 +98,10 @@ export default {
   mounted() {
     if (!this.dispositivo.routines) {
       this.setState();
+    }else{
+      this.dispositivo.routines.actions=[
+        {name:"open",params:[]},{name:"unlock",params:[]}
+      ]
     }
   }
 };

@@ -148,14 +148,15 @@ export default {
       this.step = 2;
     },
     addRutina() {
-      let rutina = {
-        name: this.rutinaName,
-        actions: []
-      };
-      rutina.actions = this.dispositivosSelected.map(v => {
-        return {};
-      });
-      this.$router.push("rutinas");
+      // let rutina = {
+      //   name: this.rutinaName,
+      //   actions: []
+      // };
+      // rutina.actions = this.dispositivosSelected.map(v => {
+      //   return {};
+      // });
+      // this.$router.push("rutinas");
+      console.log(this.dispositivosSelected);
     },
     comfirmNameRutina() {
       if (this.$refs.nameForm.validate()) {

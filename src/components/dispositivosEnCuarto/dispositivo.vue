@@ -12,7 +12,8 @@
     <Heladera :dispositivo="dispositivo" v-else-if="dispositivo.type.name=='refrigerator'"></Heladera>
     <Horno :dispositivo="dispositivo" v-else-if="dispositivo.type.name=='oven'"></Horno>
     <Lampara :dispositivo="dispositivo" v-else-if="dispositivo.type.name=='lamp'"></Lampara>
-    <Persiana :dispositivo="dispositivo" v-else-if="dispositivo.type.name=='blinds'"></Persiana>
+    <Persiana :dispositivo="dispositivo" v-else-if="dispositivo.type.name=='blinds'&&!dispositivo.routines"></Persiana>
+    <PersianaRutina :dispositivo="dispositivo" v-else-if="dispositivo.type.name=='blinds'&&!!dispositivo.routines"></PersianaRutina>
     <Puerta :dispositivo="dispositivo" v-else-if="dispositivo.type.name=='door'"></Puerta>
     <DispositivoDesconocido :dispositivo="dispositivo" v-else></DispositivoDesconocido>
     <v-container>
@@ -33,6 +34,7 @@ import Horno from "./dispositivos/horno";
 import Lampara from "./dispositivos/lampara";
 import Parlante from "./dispositivos/parlante";
 import Persiana from "./dispositivos/persiana";
+import PersianaRutina from "./dispositivos/persianaRutina.vue";
 import Puerta from "./dispositivos/puerta";
 import DispositivoDesconocido from "./dispositivos/dispositivoDesconocido";
 
@@ -55,6 +57,7 @@ export default {
     Lampara,
     Parlante,
     Persiana,
+    PersianaRutina,
     Puerta,
     DispositivoDesconocido
   },
