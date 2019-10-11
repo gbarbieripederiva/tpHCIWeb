@@ -13,7 +13,7 @@
               <v-icon>mdi-thermometer-low</v-icon>
             </v-row>
             <v-row justify="center" align="center">
-              <v-slider v-model="temp" :max="tempRange[1]" step="1" :min="tempRange[0]" thumb-label></v-slider>
+              <v-slider @change="setTemp" v-model="temp" :max="tempRange[1]" step="1" :min="tempRange[0]" thumb-label></v-slider>
             </v-row>
           </v-col>
         </v-row>
@@ -121,21 +121,39 @@ export default {
     };
   },
   methods: {
+    setTemp(){
+      if (!this.dispositivo.routines) {
+        api.device
+          .putAction(this.dispositivo.id, "setTemperature", [
+            this.temp.toString()
+          ])
+          .then(r => {
+            this.dispositivo.state.temperature = this.temp;
+          })
+          .catch(e => {
+            console.error(e);
+          });
+      }
+    },
     changeModo(modo) {
       this.modo = modo;
-      api.device
-        .putAction(this.dispositivo.id, "setMode", [this.modo])
-        .catch(e => {
-          console.error(e);
-        });
+      if (!this.dispositivo.routines) {
+        api.device
+          .putAction(this.dispositivo.id, "setMode", [this.modo])
+          .catch(e => {
+            console.error(e);
+          });
+      }
     },
     changeVelocidad(velocidad) {
       this.velocidad = velocidad;
-      api.device
-        .putAction(this.dispositivo.id, "setFanSpeed", [this.velocidad])
-        .catch(e => {
-          console.error(e);
-        });
+      if (!this.dispositivo.routines) {
+        api.device
+          .putAction(this.dispositivo.id, "setFanSpeed", [this.velocidad])
+          .catch(e => {
+            console.error(e);
+          });
+      }
     },
     power() {
       this.prendido = !this.prendido;
@@ -144,78 +162,92 @@ export default {
       } else {
         this.colorPrendido = "";
       }
-      let action = this.prendido === true ? "turnOn" : "turnOff";
-      api.device.putAction(this.dispositivo.id, action).catch(e => {
-        console.error(e);
-      });
+      if (!this.dispositivo.routines) {
+        let action = this.prendido === true ? "turnOn" : "turnOff";
+        api.device.putAction(this.dispositivo.id, action).catch(e => {
+          console.error(e);
+        });
+      }
     },
     changeYaxis(e) {
-      api.device
-        .putAction(this.dispositivo.id, "setVerticalSwing", [
-          this.yAxisValues[e].toString()
-        ])
-        .then(r => {
-          this.dispositivo.state.verticalSwing = this.yAxisValues[e];
-        })
-        .catch(e => {
-          console.error(e);
-        });
+      if (!this.dispositivo.routines) {
+        api.device
+          .putAction(this.dispositivo.id, "setVerticalSwing", [
+            this.yAxisValues[e].toString()
+          ])
+          .then(r => {
+            this.dispositivo.state.verticalSwing = this.yAxisValues[e];
+          })
+          .catch(e => {
+            console.error(e);
+          });
+      }
     },
     changeXaxis(e) {
-      api.device
-        .putAction(this.dispositivo.id, "setHorizontalSwing", [
-          this.xAxisValues[e].toString()
-        ])
-        .then(r => {
-          this.dispositivo.state.horizontalSwing = this.xAxisValues[e];
-        })
-        .catch(e => {
-          console.error(e);
-        });
+      if (!this.dispositivo.routines) {
+        api.device
+          .putAction(this.dispositivo.id, "setHorizontalSwing", [
+            this.xAxisValues[e].toString()
+          ])
+          .then(r => {
+            this.dispositivo.state.horizontalSwing = this.xAxisValues[e];
+          })
+          .catch(e => {
+            console.error(e);
+          });
+      }
     },
     changeAutoY(e) {
-      let action = e ? "auto" : 22;
-      api.device
-        .putAction(this.dispositivo.id, "setVerticalSwing", [action.toString()])
-        .then(r => {
-          this.yAxis = 0;
-          this.dispositivo.state.horizontalSwing = action;
-        })
-        .catch(e => {
-          console.error(e);
-        });
+      if (!this.dispositivo.routines) {
+        let action = e ? "auto" : 22;
+        api.device
+          .putAction(this.dispositivo.id, "setVerticalSwing", [
+            action.toString()
+          ])
+          .then(r => {
+            this.yAxis = 0;
+            this.dispositivo.state.horizontalSwing = action;
+          })
+          .catch(e => {
+            console.error(e);
+          });
+      }
     },
     changeAutoX(e) {
-      let action = e ? "auto" : 0;
-      api.device
-        .putAction(this.dispositivo.id, "setHorizontalSwing", [
-          action.toString()
-        ])
-        .then(r => {
-          this.xAxis = 2;
-          this.dispositivo.state.verticalSwing = action;
-        })
-        .catch(e => {
-          console.error(e);
-        });
+      if (!this.dispositivo.routines) {
+        let action = e ? "auto" : 0;
+        api.device
+          .putAction(this.dispositivo.id, "setHorizontalSwing", [
+            action.toString()
+          ])
+          .then(r => {
+            this.xAxis = 2;
+            this.dispositivo.state.verticalSwing = action;
+          })
+          .catch(e => {
+            console.error(e);
+          });
+      }
     }
   },
   mounted() {
-    let i = this.yAxisValues.indexOf(
-      parseInt(this.dispositivo.state.verticalSwing)
-    );
-    let j = this.xAxisValues.indexOf(
-      parseInt(this.dispositivo.state.horizontalSwing)
-    );
-    this.yAxis = i > 0 ? i : 0;
-    this.xAxis = j > 0 ? j : 2;
-    this.autoY = i > 0 ? false : true;
-    this.autoX = j > 0 ? false : true;
-    this.velocidad = this.dispositivo.state.fanSpeed;
-    this.modo = this.dispositivo.state.mode;
-    this.temp = this.dispositivo.state.temperature;
-    this.prendido = this.dispositivo.state.status === "on" ? true : false;
-    this.colorPrendido=this.prendido?"light-green":"";
+    if (!this.dispositivo.routines) {
+      let i = this.yAxisValues.indexOf(
+        parseInt(this.dispositivo.state.verticalSwing)
+      );
+      let j = this.xAxisValues.indexOf(
+        parseInt(this.dispositivo.state.horizontalSwing)
+      );
+      this.yAxis = i > 0 ? i : 0;
+      this.xAxis = j > 0 ? j : 2;
+      this.autoY = i > 0 ? false : true;
+      this.autoX = j > 0 ? false : true;
+      this.velocidad = this.dispositivo.state.fanSpeed;
+      this.modo = this.dispositivo.state.mode;
+      this.temp = this.dispositivo.state.temperature;
+      this.prendido = this.dispositivo.state.status === "on" ? true : false;
+      this.colorPrendido = this.prendido ? "light-green" : "";
+    }
   }
 };
 </script>
