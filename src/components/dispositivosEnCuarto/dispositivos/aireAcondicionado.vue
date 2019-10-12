@@ -19,7 +19,7 @@
         </v-row>
         <v-row justify="center" align="center">
           <!-- modo -->
-          <v-menu bottom offset-y origin="center top" transition="scale-transition">
+          <v-menu bottom offset-y origin="center top" transition="scale-transition" >
             <template v-slot:activator="{ on }">
               <v-btn text x-large outlined v-on="on">{{modo}}</v-btn>
             </template>
