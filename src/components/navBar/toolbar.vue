@@ -5,6 +5,7 @@
 
       <v-btn text to="/rutinas" small>Rutinas</v-btn>
       <v-btn text to="/cuartos" small>Cuartos</v-btn>
+      <v-btn text to="/alarma" small>Alarma</v-btn>
     </v-toolbar>
   </nav>
 </template>

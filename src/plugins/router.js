@@ -8,6 +8,8 @@ import Cuarto from "@/pages/cuarto.vue";
 import AddRutina from "@/pages/addRutina.vue";
 import Ayuda from "../pages/Ayuda";
 import AcercaDe from "../pages/AcercaDe";
+import Alarma from "@/pages/alarma.vue";
+
 
 Vue.use(VueRouter);
 var routes = [
@@ -36,16 +38,20 @@ var routes = [
     component:AddRutina
   },
   {
-    path: "*",
-    component: LoggedOffHome
-  },
-  {
     path: "/acercaDe",
     component: AcercaDe
   },
   {
     path: "/Ayuda",
     component: Ayuda
+  },
+  {
+    path:"/alarma",
+    component:Alarma
+  },
+  {
+    path: "*",
+    component: LoggedOffHome
   }
 ];
 var router = new VueRouter({ mode: "history", routes });

@@ -15,6 +15,7 @@
 
 <script>
 import logo from "@/assets/logo.png";
+import api from "@/plugins/api.js";
 
 export default {
   name: "NavBar",
@@ -26,12 +27,45 @@ export default {
     login: function() {
       this.$emit("input", true  );
       sessionStorage.setItem("entered",true);
-      this.$router.push("/dispositivosFavoritos");
+      api.device.getAll().then((r)=>{
+        let existAlarm=false;
+        r.devices.forEach(d => {
+          if(d.type.name==="alarm"){
+            existAlarm=true
+          }
+        });
+        if(!existAlarm){
+          return api.deviceType.getAll().then((r2)=>{
+            let alarmID=null;
+            
+            r2.result.forEach((d)=>{
+              if(d.name==="alarm"){
+                alarmID=d.id;
+              }
+            })
+            if(alarmID){
+              return api.device.addDevice({
+                name:"alarm",
+                type:{
+                  id:alarmID
+                }
+              }).then((r3)=>{
+                this.$router.push("/dispositivosFavoritos");
+              });
+            }else{
+              return Promise.reject(new Error("No se pudo obtener el id de la alarma"));
+            }
+          });
+        }else{
+          this.$router.push("/dispositivosFavoritos");
+        }
+      }).catch((e)=>{console.error(e);
+      })
     },
     logout: function() {
       this.$emit("input", false  );
       sessionStorage.removeItem("entered");
-      this.$router.push("/");
+      (this.$router.push("/"));
     }
   }
 };
