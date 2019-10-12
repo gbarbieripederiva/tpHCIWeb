@@ -151,6 +151,11 @@
         </v-container>
       </v-form>
     </v-dialog>
+    <v-snackbar v-model="snackBar" :color="snackBarColor">
+      <v-container class="pa-0 ma-0">
+        <v-row justify="center" align="center">{{snackBarMessage}}</v-row>
+      </v-container>
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -190,7 +195,11 @@ export default {
         armedStay: "Casa"
       },
       modo: "Regular",
-      modoFinal: "Regular"
+      modoFinal: "Regular",
+      snackBar: false,
+      snackBarMessage: "",
+      snackBarColor: "",
+      snackBar: false
     };
   },
   methods: {
@@ -208,8 +217,19 @@ export default {
             if (r.result) {
               this.modoFinal = this.modo;
             } else {
-              this.modoFinal = "disarmed";
+              this.snackBar = false;
+              this.snackBarMessage =
+                "No se pudo activar la alarma. Puede que este mal el código";
+              this.snackBarColor = "error";
+              this.snackBar = true;
             }
+          })
+          .catch(e => {
+            this.snackBar = false;
+            this.snackBarMessage = "Hubo un error al activar la alarma";
+            this.snackBarColor = "error";
+            this.snackBar = true;
+            console.error(e);
           });
       }
     },
@@ -223,9 +243,23 @@ export default {
           .then(r => {
             if (r.result) {
               this.modoFinal = "disarmed";
+              this.snackBar = false;
+              this.snackBarMessage = "Alarma desactivada";
+              this.snackBarColor = "success";
+              this.snackBar = true;
+            } else {
+              this.snackBar = false;
+              this.snackBarMessage =
+                "No se pudo desactivar la alarma. Puede que este mal el código";
+              this.snackBarColor = "error";
+              this.snackBar = true;
             }
           })
           .catch(e => {
+            this.snackBar = false;
+            this.snackBarMessage = "Hubo error al desactivar la alarma";
+            this.snackBarColor = "error";
+            this.snackBar = true;
             console.error(e);
           });
       }
@@ -246,18 +280,40 @@ export default {
             .then(r => {
               if (!r.result) {
                 console.log("codigo incorrecto");
-              }else{
-                api.device.modify(this.alarm.id,{
-                  name:this.alarm.name,
-                  meta:{
-                    ...this.alarm.meta,
-                    codigo:this.newCodigo
-                  }
-                }).then((r)=>{
-                }).catch((e)=>{
-                  console.log(e);
-                })
+                this.snackBar = false;
+                this.snackBarMessage =
+                  "Error al cambiar el codigo, puede que el codigo sea incorrecto";
+                this.snackBarColor = "error";
+                this.snackBar = true;
+              } else {
+                this.snackBar = false;
+                this.snackBarMessage = "Codigo cambiado con exito";
+                this.snackBarColor = "success";
+                this.snackBar = true;
+                api.device
+                  .modify(this.alarm.id, {
+                    name: this.alarm.name,
+                    meta: {
+                      ...this.alarm.meta,
+                      codigo: this.newCodigo
+                    }
+                  })
+                  .then(r => {})
+                  .catch(e => {
+                    this.snackBar = false;
+                    this.snackBarMessage = "Hubo un error inesperado";
+                    this.snackBarColor = "error";
+                    this.snackBar = true;
+                    console.error(e);
+                  });
               }
+            })
+            .catch(e => {
+              this.snackBar = false;
+              this.snackBarMessage = "Hubo un error al cambiar el codigo";
+              this.snackBarColor = "error";
+              this.snackBar = true;
+              console.error(e);
             });
         }
       }
@@ -280,6 +336,10 @@ export default {
         this.modoFinal = this.modoTranslater[this.alarm.state.status];
       })
       .catch(e => {
+        this.snackBar=false;
+        this.snackBarMessage = "Hubo un error al obtener la alarma";
+        this.snackBarColor = "error";
+        this.snackBar = true;
         console.error(e);
       });
   }

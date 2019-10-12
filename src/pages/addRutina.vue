@@ -42,6 +42,9 @@
                       class="overflow-y-auto light-blue"
                     >
                       <v-list class="transparent">
+                        <v-list-item v-if="dispositivos.length<1" >
+                          <p  class="headline">No hay dispositivos.</p>
+                        </v-list-item>
                         <v-list-item-group multiple v-model="dispositivosSelected">
                           <template v-for="dispositivo in dispositivos">
                             <v-divider v-if="!dispositivo" :key="`d+${dispositivo.id}`"></v-divider>
@@ -107,6 +110,11 @@
         </v-stepper-items>
       </v-stepper>
     </v-row>
+    <v-snackbar :color="snackBarColor" v-model="snackBar">
+      <v-container class="ma-0 pa-0">
+        <v-row justify="center" align="center">{{this.snackBarMessage}}</v-row>
+      </v-container>
+    </v-snackbar>
   </div>
 </template>
 
@@ -140,38 +148,62 @@ export default {
       ],
 
       step: 1,
-      dispositivosSelected: []
+      dispositivosSelected: [],
+      snackBar: false,
+      snackBarMessage: "",
+      snackBarColor: ""
     };
   },
   methods: {
     nextStep() {
-      this.step = 2;
+      if (this.dispositivosSelected.length < 1) {
+        this.snackBar = false;
+        this.snackBarMessage = "Debes elegir al menos un dispositivo";
+        this.snackBarColor = "error";
+        this.snackBar = true;
+      } else {
+        this.step = 2;
+      }
     },
     addRutina() {
+      if (this.dispositivosSelected.length < 1) {
+        this.snackBar = false;
+        this.snackBarMessage = "Debes elegir al menos un dispositivo";
+        this.snackBarColor = "error";
+        this.snackBar = true;
+        this.step = 1;
+        return;
+      }
       let rutina = {
         name: this.rutinaName,
         actions: []
       };
-      this.dispositivosSelected.forEach((d)=>{
-        d.routines.actions.forEach((a)=>{
+      this.dispositivosSelected.forEach(d => {
+        d.routines.actions.forEach(a => {
           rutina.actions.push({
-            device:{
-              id:d.id
+            device: {
+              id: d.id
             },
-            actionName:a.name,
-            params:a.params,
-            meta:{
-              deviceName:d.name
+            actionName: a.name,
+            params: a.params,
+            meta: {
+              deviceName: d.name
             }
           });
-        })
-      })
-      api.routines.add(rutina).then((r)=>{
-        this.$router.push("rutinas");
-      }).catch(e=>{
-        console.error(e);
-        this.$router.push("rutinas");
+        });
       });
+      api.routines
+        .add(rutina)
+        .then(r => {
+          this.$router.push("rutinas");
+        })
+        .catch(e => {
+          this.snackBar = false;
+          this.snackBarMessage = "Hubo un error al crear la rutina";
+          this.snackBarColor = "error";
+          this.snackBar = true;
+          console.error(e);
+        });
     },
     comfirmNameRutina() {
       if (this.$refs.nameForm.validate()) {
@@ -195,7 +227,9 @@ export default {
     api.device
       .getAll()
       .then(r => {
-        this.dispositivos = r.devices;
+        this.dispositivos = r.devices.filter(v => {
+          return v.type.name !== "alarm";
+        });
         this.dispositivos.forEach(v => {
           v.routines = {
             actions: []
@@ -203,6 +237,10 @@ export default {
         });
       })
       .catch(e => {
+        this.snackBar = false;
+        this.snackBarMessage = "Hubo un error al obtener los dispositivos";
+        this.snackBarColor = "error";
+        this.snackBar = true;
         console.error(e);
       });
   }

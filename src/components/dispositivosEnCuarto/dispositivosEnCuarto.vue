@@ -74,6 +74,11 @@
         </v-card>
       </v-dialog>
     </v-card>
+    <v-snackbar :color="snackBarColor" v-model="snackBar">
+      <v-container class="pa-0 ma-0">
+        <v-row justify="center" align="center">{{snackBarMessage}}</v-row>
+      </v-container>
+    </v-snackbar>
   </div>
 </template>
 
@@ -107,20 +112,23 @@ export default {
           ) ||
           "El nombre puede contener solamente letras, números, espacio y guion bajo"
       ],
-      deviceTypeTranslator:{
-        "ac":"Aire acondicionado",
+      deviceTypeTranslator: {
+        ac: "Aire acondicionado",
         "Aire acondicionado": "AC",
-        "blinds":"Persiana",
-        "Persiana":"blinds",
-        "lamp":"Lampara",
-        "Lampara":"lamp",
-        "oven":"Horno",
-        "Horno":"oven",
-        "refrigerator":"Heladera",
-        "Heladera":"refrigerator",
-        "door":"Puerta",
-        "Puerta":"door"
-      }
+        blinds: "Persiana",
+        Persiana: "blinds",
+        lamp: "Lampara",
+        Lampara: "lamp",
+        oven: "Horno",
+        Horno: "oven",
+        refrigerator: "Heladera",
+        Heladera: "refrigerator",
+        door: "Puerta",
+        Puerta: "door"
+      },
+      snackBarMessage: "",
+      snackBarColor: "",
+      snackBar: false
     };
   },
   methods: {
@@ -141,10 +149,18 @@ export default {
             })
             .catch(e => {
               console.error(e);
+              this.snackBar = false;
+              this.snackBarMessage = "Error al agregar dispositivo al cuarto";
+              this.snackBarColor = "error";
+              this.snackBar = true;
             });
         })
         .catch(e => {
           console.error(e);
+          this.snackBar = false;
+          this.snackBarMessage = "Error al agregar dispositivo";
+          this.snackBarColor = "error";
+          this.snackBar = true;
         });
       this.newDispositivo = "";
       this.newDispositivoType = -1;
@@ -174,6 +190,10 @@ export default {
       })
       .catch(e => {
         console.error(e);
+        this.snackBar=false;
+        this.snackBarMessage = "Error en la obtnecion de los tipos de dispositivo";
+        this.snackBarColor = "error";
+        this.snackBar = true;
       });
   }
 };

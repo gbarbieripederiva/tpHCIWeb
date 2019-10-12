@@ -1,13 +1,24 @@
 <template>
   <div>
-    <v-card :height="sizeOfCard.height" :width="sizeOfCard.width" class="overflow-y-auto light-blue">
+    <v-card
+      :height="sizeOfCard.height"
+      :width="sizeOfCard.width"
+      class="overflow-y-auto light-blue"
+    >
       <v-container grid-list-xl class="overflow-y-">
         <v-layout row wrap justify-space-start>
           <v-flex v-for="(cuarto,index) in cuartos" :key="index" md4>
             <cuartoCard :cuarto="cuarto"></cuartoCard>
           </v-flex>
           <v-flex md4>
-            <v-card height="250" width="250" align="center" justify="center" flat class="transparent">
+            <v-card
+              height="250"
+              width="250"
+              align="center"
+              justify="center"
+              flat
+              class="transparent"
+            >
               <v-card
                 height="200"
                 width="200"
@@ -25,12 +36,12 @@
                     <v-form @submit="addCuarto" ref="addCuartoForm">
                       <v-row>
                         <v-text-field
-                                maxlength="60"
-                                class="mx-4"
-                                placeholder="Nombre del cuarto"
-                                :rules="cuartoNombreRules"
-                                required
-                                v-model="newCuarto"
+                          maxlength="60"
+                          class="mx-4"
+                          placeholder="Nombre del cuarto"
+                          :rules="cuartoNombreRules"
+                          required
+                          v-model="newCuarto"
                         ></v-text-field>
                       </v-row>
                       <v-row justify="space-around">
@@ -46,6 +57,11 @@
         </v-layout>
       </v-container>
     </v-card>
+    <v-snackbar :color="snackBarColor" v-model="snackBar">
+      <v-container class="pa-0 ma-0">
+        <v-row justify="center" align="center">{{snackBarMessage}}</v-row>
+      </v-container>
+    </v-snackbar>
   </div>
 </template>
 
@@ -69,45 +85,61 @@ export default {
       dialogAddCuarto: false,
       newCuarto: "",
       newCuartoImage: "mdi-home",
-      cuartoNombreRules:[
-        (v)=>!!v||'El nombre es obligatorio',
-        v=>(v&&v.length>=3)||'El minimo de caracteres es 3',
-        (v)=>/^[0-9A-Za-z\ _][0-9A-Za-z\ _][0-9A-Za-z\ _][0-9A-Za-z\ _]*$/.test(v)||"El nombre puede contener solamente letras, números, espacio y guion bajo"
-      ]
+      cuartoNombreRules: [
+        v => !!v || "El nombre es obligatorio",
+        v => (v && v.length >= 3) || "El minimo de caracteres es 3",
+        v =>
+          /^[0-9A-Za-z\ _][0-9A-Za-z\ _][0-9A-Za-z\ _][0-9A-Za-z\ _]*$/.test(
+            v
+          ) ||
+          "El nombre puede contener solamente letras, números, espacio y guion bajo"
+      ],
+      snackBarMessage: "",
+      snackBarColor: "",
+      snackBar: false
     };
   },
   methods: {
     addCuarto(e) {
       e.preventDefault();
-      if(this.$refs.addCuartoForm.validate()){
+      if (this.$refs.addCuartoForm.validate()) {
         api.room
-        .add({
-          name: this.newCuarto,
-          meta: {
-            img: this.newCuartoImage
-          }
-        })
-        .then(r => {
-          let newCuarto = {
-            name: r.result.name,
-            img: r.result.meta.img,
-            open: () => {
-              this.$router.push(this.$route.path + "/" + r.result.id + "/" + r.result.name);
+          .add({
+            name: this.newCuarto,
+            meta: {
+              img: this.newCuartoImage
             }
-          };
-          this.$refs.addCuartoForm.reset();
-          this.newCuarto = "";
-          this.cuartos.push(newCuarto);
-        })
-        .catch(e => {
-          //TODO:IMPLEMENT ERROR SHOWING
-          console.error(e);
-        });
-        this.dialogAddCuarto=false;
-      }else{
+          })
+          .then(r => {
+            let newCuarto = {
+              name: r.result.name,
+              img: r.result.meta.img,
+              open: () => {
+                this.$router.push(
+                  this.$route.path + "/" + r.result.id + "/" + r.result.name
+                );
+              }
+            };
+            this.$refs.addCuartoForm.reset();
+            this.newCuarto = "";
+            this.cuartos.push(newCuarto);
+          })
+          .catch(e => {
+            this.snackBar = false;
+            this.snackBarMessage = "Error al agregar cuarto";
+            this.snackBarColor = "error";
+            this.snackBar = true;
+            console.error(e);
+          });
+        this.dialogAddCuarto = false;
+      } else {
         this.$refs.addCuartoForm.reset();
         console.error("formularion invalido");
-        this.dialogAddCuarto=false;
+        this.snackBar=false;
+        this.snackBarMessage = "No se pudo agregar el cuarto";
+        this.snackBarColor = "error";
+        this.snackBar = true;
+        this.dialogAddCuarto = false;
       }
     },
     cancelAddCuarto() {

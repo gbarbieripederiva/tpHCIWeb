@@ -11,16 +11,30 @@
     <Heladera :dispositivo="dispositivo" v-else-if="dispositivo.type.name=='refrigerator'"></Heladera>
     <Horno :dispositivo="dispositivo" v-else-if="dispositivo.type.name=='oven'"></Horno>
     <Lampara :dispositivo="dispositivo" v-else-if="dispositivo.type.name=='lamp'"></Lampara>
-    <Persiana :dispositivo="dispositivo" v-else-if="dispositivo.type.name=='blinds'&&!dispositivo.routines"></Persiana>
-    <PersianaRutina :dispositivo="dispositivo" v-else-if="dispositivo.type.name=='blinds'&&!!dispositivo.routines"></PersianaRutina>
+    <Persiana
+      :dispositivo="dispositivo"
+      v-else-if="dispositivo.type.name=='blinds'&&!dispositivo.routines"
+    ></Persiana>
+    <PersianaRutina
+      :dispositivo="dispositivo"
+      v-else-if="dispositivo.type.name=='blinds'&&!!dispositivo.routines"
+    ></PersianaRutina>
     <Puerta :dispositivo="dispositivo" v-else-if="dispositivo.type.name=='door'"></Puerta>
     <DispositivoDesconocido :dispositivo="dispositivo" v-else></DispositivoDesconocido>
     <v-container>
       <v-row class="pr-4">
         <v-spacer></v-spacer>
-        <v-icon @click="deleteDispositivo" v-if="!dispositivo.routines&&dispositivo.type.name!=='alarm'">mdi-delete</v-icon>
+        <v-icon
+          @click="deleteDispositivo"
+          v-if="!dispositivo.routines&&dispositivo.type.name!=='alarm'"
+        >mdi-delete</v-icon>
       </v-row>
     </v-container>
+    <v-snackbar :color="snackBarColor" v-model="snackBar">
+      <v-container class="pa-0 ma-0">
+        <v-row justify="center" align="center">{{snackBarMessage}}</v-row>
+      </v-container>
+    </v-snackbar>
   </v-card>
 </template>
 
@@ -44,7 +58,11 @@ export default {
   props: ["dispositivo", "deleteDispositivoFromList"],
   data() {
     return {
-      favColor: ""
+      favColor: "",
+
+      snackBarMessage: "",
+      snackBarColor: "",
+      snackBar: false
     };
   },
   components: {
@@ -69,6 +87,10 @@ export default {
         })
         .catch(e => {
           console.error(e);
+          this.snackBar = false;
+          this.snackBarMessage = "Error al borrar dispositivo";
+          this.snackBarColor = "error";
+          this.snackBar = true;
         });
     },
     favDispositivo() {
@@ -85,21 +107,21 @@ export default {
       api.device
         .modify(this.dispositivo.id, device)
         .then(r => {
-          this.favColor =
-            !!device.meta && !!device.meta.fav
-              ? "yellow"
-              : "";
+          this.favColor = !!device.meta && !!device.meta.fav ? "yellow" : "";
           this.dispositivo.meta = device.meta;
         })
         .catch(e => {
           console.error(e);
+          this.snackBar = false;
+          this.snackBarMessage = "Error al agregar dispositivo a favorito";
+          this.snackBarColor = "error";
+          this.snackBar = true;
         });
     }
   },
   mounted() {
     this.favColor =
       !!this.dispositivo.meta && !!this.dispositivo.meta.fav ? "yellow" : "";
-      
   }
 };
 </script>

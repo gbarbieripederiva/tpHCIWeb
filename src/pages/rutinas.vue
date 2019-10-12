@@ -68,9 +68,6 @@ export default {
             this.rutinas = this.rutinas.filter(v => {
               return v.id !== id;
             });
-            this.snackBarMessage = "Rutina borrada con exito";
-            this.snackBarColor = "success";
-            this.snackBar = true;
           })
           .catch(e => {
             console.error(e);
@@ -111,7 +108,10 @@ export default {
         this.rutinas = r.result;
       })
       .catch(e => {
-        //TODO IMPLEMENT ERROR SHOWING
+        this.snackBar=false;
+        this.snackBarMessage = "Error en la obtencion de las rutinas";
+        this.snackBarColor = "error";
+        this.snackBar = true;
         console.error(e);
       });
   }
