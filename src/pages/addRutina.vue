@@ -16,7 +16,7 @@
                 ></v-text-field>
               </v-row>
               <v-row justify="space-around">
-                <v-btn @click="comfirmNameRutina">Comfirmar</v-btn>
+                <v-btn @click="comfirmNameRutina">Confirmar</v-btn>
                 <v-btn @click="cancelNameRutina">Cancel</v-btn>
               </v-row>
             </v-container>
@@ -76,7 +76,7 @@
                   </v-row>
                   <v-row justify="end" class="my-5">
                     <v-btn class="mx-5 error" to="rutinas">Cancelar</v-btn>
-                    <v-btn class="success" @click="nextStep">Comfirmar</v-btn>
+                    <v-btn class="success" @click="nextStep">Confirmar</v-btn>
                   </v-row>
                 </v-container>
               </v-card>
