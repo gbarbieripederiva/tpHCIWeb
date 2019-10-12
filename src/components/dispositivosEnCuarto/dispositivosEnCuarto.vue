@@ -159,7 +159,7 @@ export default {
   },
   mounted() {
     this.sizeOfCard.width = window.innerWidth - 40;
-    this.sizeOfCard.height = window.innerHeight - 300;
+    this.sizeOfCard.height = window.innerHeight - 250;
     api.deviceType
       .getAll()
       .then(r => {

@@ -246,6 +246,17 @@ export default {
             .then(r => {
               if (!r.result) {
                 console.log("codigo incorrecto");
+              }else{
+                api.device.modify(this.alarm.id,{
+                  name:this.alarm.name,
+                  meta:{
+                    ...this.alarm.meta,
+                    codigo:this.newCodigo
+                  }
+                }).then((r)=>{
+                }).catch((e)=>{
+                  console.log(e);
+                })
               }
             });
         }

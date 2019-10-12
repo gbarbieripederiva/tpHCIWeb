@@ -48,6 +48,9 @@ export default {
                 name:"alarm",
                 type:{
                   id:alarmID
+                },
+                meta:{
+                  codigo:"1234"
                 }
               }).then((r3)=>{
                 this.$router.push("/dispositivosFavoritos");
