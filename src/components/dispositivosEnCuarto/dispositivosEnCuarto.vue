@@ -106,7 +106,21 @@ export default {
             v
           ) ||
           "El nombre puede contener solamente letras, números, espacio y guion bajo"
-      ]
+      ],
+      deviceTypeTranslator:{
+        "ac":"Aire acondicionado",
+        "Aire acondicionado": "AC",
+        "blinds":"Persiana",
+        "Persiana":"blinds",
+        "lamp":"Lampara",
+        "Lampara":"lamp",
+        "oven":"Horno",
+        "Horno":"oven",
+        "refrigerator":"Heladera",
+        "Heladera":"refrigerator",
+        "door":"Puerta",
+        "Puerta":"door"
+      }
     };
   },
   methods: {
@@ -152,7 +166,7 @@ export default {
         for (let v of r.result) {
           if (!["alarm", "speaker", "vacuum"].includes(v.name)) {
             this.deviceTypes.push({
-              name: v.name,
+              name: this.deviceTypeTranslator[v.name],
               id: v.id
             });
           }
