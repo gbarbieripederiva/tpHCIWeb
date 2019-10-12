@@ -13,45 +13,63 @@
         @deleteDevice="deleteDispositivo"
       ></Dispositivo>
       <v-card v-if="dispositivos.length==0&&!!notShowAdd" fill-width class="light-blue my-2">
-        <v-container fill-width >
+        <v-container fill-width>
           <v-row justify="center" align="center">
             <v-row align="center" justify="center">
-              <p class="font-weight-bold headline">No ha seleccionado ningún dispositivo como favorito</p>
+              <p
+                class="font-weight-bold headline"
+              >No ha seleccionado ningún dispositivo como favorito</p>
             </v-row>
             <v-row align="center" justify="center">
-              <p> Para ello debe seleccionar el siguiente ícono en cualquiera de sus dispositivos <v-icon>mdi-star-outline</v-icon></p>
+              <p>
+                Para ello debe seleccionar el siguiente ícono en cualquiera de sus dispositivos
+                <v-icon>mdi-star-outline</v-icon>
+              </p>
             </v-row>
           </v-row>
         </v-container>
       </v-card>
-      <v-card class="grey" raised v-if="!notShowAdd" fill-width @click="()=>{dialogAddDispositivo=true}">
+      <v-card
+        class="grey"
+        raised
+        v-if="!notShowAdd"
+        fill-width
+        @click="()=>{dialogAddDispositivo=true}"
+      >
         <v-container fill-width>
           <v-row justify="center" align="center">
-            <p class="font-weight-bold headline">Añadir dispositivo<v-icon class="mx-1">mdi-plus-box</v-icon> </p>
+            <p class="font-weight-bold headline">
+              Añadir dispositivo
+              <v-icon class="mx-1">mdi-plus-box</v-icon>
+            </p>
           </v-row>
         </v-container>
       </v-card>
       <v-dialog v-model="dialogAddDispositivo">
         <v-card>
           <v-form @submit="addDispositivo">
-            <v-text-field
-              class="mx-4"
-              maxlength="60"
-              :rules="dispositivoNombreRules"
-              required
-              v-model="newDispositivo"
-              placeholder="Nombre"
-            ></v-text-field>
-            <v-select
-              class="mx-4"
-              label="Tipo"
-              :items="deviceTypes"
-              v-model="newDispositivoType"
-              item-text="name"
-              item-value="id"
-            ></v-select>
-            <v-btn type="submit" @click="dialogAddDispositivo=false">Comfirmar</v-btn>
-            <v-btn type="reset" @click="cancelAddDispositivo">Cancelar</v-btn>
+            <v-container>
+              <v-text-field
+                class="mx-4"
+                maxlength="60"
+                :rules="dispositivoNombreRules"
+                required
+                v-model="newDispositivo"
+                placeholder="Nombre"
+              ></v-text-field>
+              <v-select
+                class="mx-4"
+                label="Tipo"
+                :items="deviceTypes"
+                v-model="newDispositivoType"
+                item-text="name"
+                item-value="id"
+              ></v-select>
+              <v-row justify="space-around">
+                <v-btn type="submit" @click="dialogAddDispositivo=false">Comfirmar</v-btn>
+                <v-btn type="reset" @click="cancelAddDispositivo">Cancelar</v-btn>
+              </v-row>
+            </v-container>
           </v-form>
         </v-card>
       </v-dialog>
@@ -132,10 +150,12 @@ export default {
       .getAll()
       .then(r => {
         for (let v of r.result) {
-          this.deviceTypes.push({
-            name: v.name,
-            id: v.id
-          });
+          if (!["alarm", "speaker", "vacuum"].includes(v.name)) {
+            this.deviceTypes.push({
+              name: v.name,
+              id: v.id
+            });
+          }
         }
       })
       .catch(e => {

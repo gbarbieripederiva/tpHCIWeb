@@ -31,11 +31,12 @@ export default {
   },
   methods:{
       executeRoutine(){
+        this.$emit("executeStat",1);
           api.routines.execute(this.rutina.id).then((r)=>{
-              console.log(r);
+              this.$emit("executeStat",2);
           }).catch((e)=>{
               console.error(e);
-              
+              this.$emit("executeStat",-1)
           });
       },
       deleteRutina(){

@@ -7,7 +7,20 @@
         :width="sizeOfCard.width"
         class="overflow-y-auto light-blue"
       >
-        <Rutina v-for="rutina in rutinas" :key="rutina.id" :rutina="rutina" @deleteRutina="deleteRutina"></Rutina>
+        <Rutina
+          v-for="rutina in rutinas"
+          :key="rutina.id"
+          :rutina="rutina"
+          @deleteRutina="deleteRutina"
+          @executeStat="showExecStat"
+        ></Rutina>
+        <v-snackbar v-model="snackBar" :color="snackBarColor" :timeout="3000" bottom>
+          <v-container class="pa-0 ma-0">
+            <v-row justify="center" align="center" class="pa-0 ma-0">
+              <p class="pa-0 ma-0">{{snackBarMessage}}</p>
+            </v-row>
+          </v-container>
+        </v-snackbar>
         <v-card fill-width to="añadirRutina">
           <v-container fill-width raised class="grey my-2">
             <v-row justify="center" align="center">
@@ -37,18 +50,52 @@ export default {
       sizeOfCard: {
         height: 10,
         width: 10
-      }
+      },
+      snackBar: false,
+      snackBarMessage: "",
+      snackBarColor: ""
     };
   },
-  methods:{
-    deleteRutina(id){
-      api.routines.delete(id).then(()=>{
-        this.rutinas=this.rutinas.filter((v)=>{
-          return v.id!==id;
-        });
-      }).catch((e)=>{
-        console.error(e);
-      });
+  methods: {
+    deleteRutina(id) {
+      if(window.confirm("¿Está seguro que desea eliminar esta rutina?")){
+        this.snackBarMessage = "Borrando rutina";
+        this.snackBarColor = "info";
+        this.snackBar = true;
+        api.routines
+          .delete(id)
+          .then(() => {
+            this.rutinas = this.rutinas.filter(v => {
+              return v.id !== id;
+            });
+            this.snackBarMessage = "Rutina borrada con exito";
+            this.snackBarColor = "success";
+            this.snackBar = true;
+          })
+          .catch(e => {
+            console.error(e);
+            this.snackBarMessage = "Hubo un error al borrar la rutina";
+            this.snackBarColor = "error";
+            this.snackBar = true;
+          });
+      }
+    },
+    showExecStat(e) {
+      switch (e) {
+        case -1:
+          this.snackBarMessage = "Hubo un error al ejecutar la rutina";
+          this.snackBarColor = "error";
+          break;
+        case 1:
+          this.snackBarMessage = "Ejecutando rutina";
+          this.snackBarColor = "info";
+          break;
+        case 2:
+          this.snackBarMessage = "Rutina ejecutada con exito";
+          this.snackBarColor = "success";
+          break;
+      }
+      this.snackBar = true;
     }
   },
   mounted() {
@@ -62,7 +109,6 @@ export default {
       .getAll()
       .then(r => {
         this.rutinas = r.result;
-        console.log(this.rutinas)
       })
       .catch(e => {
         //TODO IMPLEMENT ERROR SHOWING
