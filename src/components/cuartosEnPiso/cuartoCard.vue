@@ -1,5 +1,5 @@
 <template>
-  <v-card height="250" width="250" align="center" justify="center" flat>
+  <v-card height="250" width="250" align="center" justify="center" flat class="transparent">
     <v-card
       height="200"
       width="200"

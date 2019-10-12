@@ -92,12 +92,12 @@ api.device = class{
         return api.baseUrl + "devices/"
     }
 
-    static add(device) {
+    static addDevice(device) {
         return api.post(api.device.url, device);
     }
 
-    static modify(device) {
-        return api.put(api.device.url + device.id, device);
+    static modify(deviceId,deviceChange) {
+        return api.put(api.device.url + deviceId, deviceChange);
 
     }
 
@@ -111,4 +111,74 @@ api.device = class{
     static getAll(){
         return api.get(api.device.url);
     }
+
+    static getState(id){
+        return api.get(api.device.url + id + "/" + "state/");
+    }
+
+    static putAction(deviceId, actionName, values){
+        return api.put(api.device.url + deviceId + "/" + actionName, typeof values==='undefined'?{}:values);
+    }
+
+
+
 }
+
+api.roomDevices = class{
+    static get url(){
+        return api.baseUrl + "rooms/";
+    }
+    static getAll(roomId){
+        return api.get(api.roomDevices.url + roomId + "/" + "devices/");
+    }
+
+    static add(roomId, deviceId){
+        return api.post(api.roomDevices.url + roomId + "/" + "devices/" + deviceId + "/");
+    }
+
+    static delete(deviceId){
+        return api.delete(api.roomDevices.url + deviceId);
+    }
+}
+
+api.routines = class{
+    static get url(){
+        return api.baseUrl + "routines/";
+    }
+
+    static getAll() {
+        return api.get(api.routines.url);
+    }
+
+    static get(routineId){
+        return api.get(api.routines.url + routineId);
+    }
+
+    static execute(routineId){
+        return api.put(api.routines.url + routineId + "/execute",{});
+    }
+
+    static add(routine){
+        return api.post(api.routines.url, routine);
+    }
+
+    static delete(routineId){
+        return api.delete(api.routines.url + routineId);
+    }
+    static modify(routine){
+        return api.put(api.routines.url + routine.id, routine);
+    }
+
+}
+
+api.deviceType = class {
+    static get url(){
+        return api.baseUrl + "devicetypes/";
+    }
+
+    static getAll(){
+        return api.get(api.deviceType.url);
+    }
+}
+
+export default api;

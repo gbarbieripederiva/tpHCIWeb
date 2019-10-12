@@ -5,6 +5,11 @@ import Piso from "@/pages/piso.vue";
 import DispositivosFavoritos from "@/pages/dispositivosFavoritos.vue";
 import Rutinas from "@/pages/rutinas.vue";
 import Cuarto from "@/pages/cuarto.vue";
+import AddRutina from "@/pages/addRutina.vue";
+import Ayuda from "../pages/Ayuda";
+import AcercaDe from "../pages/AcercaDe";
+import Alarma from "@/pages/alarma.vue";
+
 
 Vue.use(VueRouter);
 var routes = [
@@ -17,7 +22,7 @@ var routes = [
     component: Piso
   },
   {
-    path: "/cuartos/:idCuarto",
+    path: "/cuartos/:idCuarto/:nameCuarto",
     component: Cuarto
   },
   {
@@ -27,6 +32,22 @@ var routes = [
   {
     path: "/rutinas",
     component: Rutinas
+  },
+  {
+    path:"/añadirRutina",
+    component:AddRutina
+  },
+  {
+    path: "/acercaDe",
+    component: AcercaDe
+  },
+  {
+    path: "/Ayuda",
+    component: Ayuda
+  },
+  {
+    path:"/alarma",
+    component:Alarma
   },
   {
     path: "*",

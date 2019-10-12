@@ -1,12 +1,13 @@
 <template>
   <v-app>
     <NavBar v-model="entered"></NavBar>
-    <ToolBar v-if="entered" :pisos="pisos"></ToolBar>
-    <v-content class="primary">
+    <ToolBar v-if="entered"></ToolBar>
+    <v-content class="blue darken-2">
       <br>
       <router-view></router-view>
     </v-content>
   </v-app>
+
 </template>
 
 <script>
@@ -18,18 +19,10 @@ export default {
   components: { NavBar, ToolBar },
   data() {
     return {
-      pisos: [],
       entered: false
     };
   },
   mounted() {
-    let name = "chau";
-    this.pisos.push({
-      name: name,
-      open: () => {
-        this.$router.push("/pisos/" + name);
-      }
-    });
     let entered=sessionStorage.getItem("entered");
     this.entered=entered?true:false;
   }
